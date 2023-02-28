@@ -1,6 +1,8 @@
 package com.cooksys.assessment1.dtos;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -21,8 +23,9 @@ public class TweetResponseDto {
      * private UserResponseDto author;
      */
 
+    @CreationTimestamp
     @JsonProperty("posted")
-    private LocalDateTime posted;
+    private Timestamp posted;
 
     @JsonProperty("in_reply_to")
     private TweetResponseDto inReplyTo;
