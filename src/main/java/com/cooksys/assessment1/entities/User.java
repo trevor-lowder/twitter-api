@@ -7,6 +7,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -43,17 +44,10 @@ public class User {
 	@OneToMany
 	private List<User> followers;
 
-//TODO These two mappings are meant to be the User side of the likes and mentions many to many and will need to be uncommented once the Tweet class and related are in place
-//	@ManyToMany
-//	private List<Tweet> likedTweets;
-//	
-//	@ManyToMany
-//	private List<Tweet> mentionedTweets;
+	// These two mappings are meant to be the User side of the likes and mentions many to many and will need to be uncommented once the Tweet class and related are in place
+	@ManyToMany
+	private List<Tweet> likedTweets;
 	
-//TODO These two mappings are meant to be the Tweet side of the likes and mentions many to many and will need to be uncommented and put into the Tweet class
-//	@ManyToMany(mappedBy = "likedTweets")
-//	private List<Tweet> likes;
-//	
-//	@ManyToMany(mappedBy = "mentionedTweets")
-//	private List<Tweet> mentions;
+	@ManyToMany
+	private List<Tweet> mentionedTweets;
 }
