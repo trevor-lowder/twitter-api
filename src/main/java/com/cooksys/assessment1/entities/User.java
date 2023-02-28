@@ -44,9 +44,16 @@ public class User {
 	private List<User> followers;
 
 //TODO These two mappings are meant to be the User side of the likes and mentions many to many and will need to be uncommented once the Tweet class and related are in place
-//	@OneToMany(mappedBy = "user_table")
+//	@ManyToMany
+//	private List<Tweet> likedTweets;
+//	
+//	@ManyToMany
+//	private List<Tweet> mentionedTweets;
+	
+//TODO These two mappings are meant to be the Tweet side of the likes and mentions many to many and will need to be uncommented and put into the Tweet class
+//	@ManyToMany(mappedBy = "likedTweets")
 //	private List<Tweet> likes;
 //	
-//	@OneToMany(mappedBy = "user_table")
+//	@ManyToMany(mappedBy = "mentionedTweets")
 //	private List<Tweet> mentions;
 }
