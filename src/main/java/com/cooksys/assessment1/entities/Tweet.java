@@ -15,7 +15,7 @@ import java.util.List;
 // import com.cooksys.assesment1.entities.User
 
 @Data
-@NoArgsConstructor // Add this annotation
+@NoArgsConstructor
 @Entity
 @Table(name = "tweet")
 public class Tweet {
