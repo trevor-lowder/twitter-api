@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,13 +30,13 @@ public class Tweet {
 	@Column(name = "id")
 	private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "author")
-    private User author;
+	@ManyToOne
+	@JoinColumn(name = "author")
+	private User author;
 
-    @Column(name = "posted")
-    @CreationTimestamp
-    private Timestamp posted;
+	@Column(name = "posted")
+	@CreationTimestamp
+	private Timestamp posted;
 
 	@Column(name = "deleted")
 	private boolean deleted;
@@ -43,27 +44,27 @@ public class Tweet {
 	@Column(name = "content")
 	private String content;
 
-	@ManyToOne
-	@JoinColumn(name = "inReplyTo")
-	private Tweet inReplyTo;
-	
-	@OneToMany(mappedBy = "inReplyTo")
-    	private List<Tweet> replies = new ArrayList<>();
-
-	@ManyToOne
-	@JoinColumn(name = "repostOf")
-	private Tweet repostOf;
-	
-	@OneToMany(mappedBy = "repostOf")
-    	private List<Tweet> reposts = new ArrayList<>();
+//	@ManyToOne
+//	@JoinColumn(name = "inReplyTo")
+//	private Tweet inReplyTo;
+//
+//	@OneToMany(mappedBy = "inReplyTo")
+//    private List<Tweet> replies
+//
+//	@ManyToOne
+//	@JoinColumn(name = "repostOf")
+//	private Tweet repostOf;
+//
+//	@OneToMany(mappedBy = "repostOf")
+//    private List<Tweet> reposts
 
     @ManyToMany()
     private List<Hashtag> hashtags;
 
-    @ManyToMany(mappedBy = "likedTweets")
-    private List<User> likedBy;
+	@ManyToMany(mappedBy = "likedTweets")
+	private List<User> likedBy;
 
-    @ManyToMany(mappedBy = "mentionedTweets")
-    private List<User> mentionedBy;
+	@ManyToMany(mappedBy = "mentionedTweets")
+	private List<User> mentionedBy;
 
 }
