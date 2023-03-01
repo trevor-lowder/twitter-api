@@ -11,6 +11,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -37,6 +39,7 @@ public class User {
 	@Embedded
 	private Profile profile;
 
+	@CreationTimestamp
 	private Timestamp joined;
 
 	private Boolean deleted = false;
@@ -44,10 +47,12 @@ public class User {
 	@OneToMany
 	private List<User> followers;
 
-	// These two mappings are meant to be the User side of the likes and mentions many to many and will need to be uncommented once the Tweet class and related are in place
+	// These two mappings are meant to be the User side of the likes and mentions
+	// many to many and will need to be uncommented once the Tweet class and related
+	// are in place
 	@ManyToMany
 	private List<Tweet> likedTweets;
-	
+
 	@ManyToMany
 	private List<Tweet> mentionedTweets;
 }
