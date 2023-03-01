@@ -1,5 +1,7 @@
 package com.cooksys.assessment1.repositories;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,5 +19,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	// Derived Query to find a Quiz by id and put in a wrapper to prevent errors
 //		Optional<Quiz> findById(Long id);
+	
+	// Derived Query to find all not deleted users
+	List<User> findByDeletedFalse();
 
 }
