@@ -22,10 +22,6 @@ public class Hashtag {
   @GeneratedValue
   private Long id;
 
-  private String label;
-
-  @CreationTimestamp
-  private Timestamp firstUsed;
   private Timestamp lastUsed;
 
   @ManyToMany(mappedBy = "hashtags")
