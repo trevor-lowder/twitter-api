@@ -27,9 +27,9 @@ public class Hashtag {
 	@CreationTimestamp
 	private Timestamp firstUsed;
 
-	private Timestamp lastUsed;
+  private Timestamp lastUsed;
 
-	@ManyToMany(mappedBy = "hashtags")
-	private List<Tweet> tweets;
+  @ManyToMany(mappedBy = "hashtags")
+  private List<Tweet> tweets;
 
 }

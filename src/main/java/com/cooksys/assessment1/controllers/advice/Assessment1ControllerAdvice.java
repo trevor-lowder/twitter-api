@@ -17,6 +17,7 @@ public class Assessment1ControllerAdvice {
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(BadRequestException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ErrorDto handleBadREquestException(HttpServletRequest request, BadRequestException badRequestException) {
 		return new ErrorDto(badRequestException.getMessage());
 	}

@@ -43,9 +43,15 @@ public class User {
 	private Timestamp joined;
 
 	private Boolean deleted = false;
+	
+	@OneToMany(mappedBy = "author")
+    	private List<Tweet> tweets;
+	
+	@ManyToMany
+    private List<User> followers;
 
-	@OneToMany
-	private List<User> followers;
+    @ManyToMany(mappedBy = "followers")
+    private List<User> following;
 
 	// These two mappings are meant to be the User side of the likes and mentions
 	// many to many and will need to be uncommented once the Tweet class and related
