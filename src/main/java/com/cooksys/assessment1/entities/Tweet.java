@@ -4,9 +4,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.sql.Timestamp;
-// import java.util.ArrayList;
-// import java.util.List;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -19,11 +21,12 @@ public class Tweet {
     @Column(name = "id")
     private Long id;
 
-    // @ManyToOne
-    // @JoinColumn(name = "author")
-    // private User author;
+    @ManyToOne
+    @JoinColumn(name = "author")
+    private User author;
 
     @Column(name = "posted")
+    @CreationTimestamp
     private Timestamp posted;
 
     @Column(name = "deleted")
@@ -40,16 +43,13 @@ public class Tweet {
     @JoinColumn(name = "repostOf")
     private Tweet repostOf;
 
-    // @ManyToMany
-    // @JoinTable(name = "tweet_hashtags",
-    // joinColumns = @JoinColumn(name = "tweet_id"),
-    // inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
-    // private List<Hashtag> hashtags = new ArrayList<>();
+    @ManyToMany()
+    private List<Hashtag> hashtags;
 
-    // @ManyToMany(mappedBy = "likedTweets")
-    // private List<User> likedBy = new ArrayList<>();
+    @ManyToMany(mappedBy = "likedTweets")
+    private List<User> likedBy;
 
-    // @ManyToMany(mappedBy = "mentionedTweets")
-    // private List<User> mentionedBy = new ArrayList<>();
+    @ManyToMany(mappedBy = "mentionedTweets")
+    private List<User> mentionedBy;
 
 }
