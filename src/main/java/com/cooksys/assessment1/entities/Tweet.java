@@ -1,14 +1,22 @@
 package com.cooksys.assessment1.entities;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.sql.Timestamp;
+import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.sql.Timestamp;
-import java.util.List;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -16,10 +24,10 @@ import java.util.List;
 @Table(name = "tweet")
 public class Tweet {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
 
     @ManyToOne
     @JoinColumn(name = "author")
@@ -29,19 +37,19 @@ public class Tweet {
     @CreationTimestamp
     private Timestamp posted;
 
-    @Column(name = "deleted")
-    private boolean deleted;
+	@Column(name = "deleted")
+	private boolean deleted;
 
-    @Column(name = "content")
-    private String content;
+	@Column(name = "content")
+	private String content;
 
-    @ManyToOne
-    @JoinColumn(name = "inReplyTo")
-    private Tweet inReplyTo;
+	@ManyToOne
+	@JoinColumn(name = "inReplyTo")
+	private Tweet inReplyTo;
 
-    @ManyToOne
-    @JoinColumn(name = "repostOf")
-    private Tweet repostOf;
+	@ManyToOne
+	@JoinColumn(name = "repostOf")
+	private Tweet repostOf;
 
     @ManyToMany()
     private List<Hashtag> hashtags;

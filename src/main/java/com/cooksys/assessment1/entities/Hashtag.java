@@ -1,7 +1,7 @@
 package com.cooksys.assessment1.entities;
 
-import java.util.List;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,9 +18,14 @@ import lombok.NoArgsConstructor;
 @Data
 public class Hashtag {
 
-  @Id
-  @GeneratedValue
-  private Long id;
+	@Id
+	@GeneratedValue
+	private Long id;
+
+	private String label;
+
+	@CreationTimestamp
+	private Timestamp firstUsed;
 
   private String label;
 
