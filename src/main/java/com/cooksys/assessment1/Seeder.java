@@ -26,9 +26,8 @@ public class Seeder implements CommandLineRunner {
 	private final HashtagRepository hashtagRepository;
 
 	/**
-	 * This method seeds the database with 2 quizzes. Each quiz has 4 questions and
-	 * each question has 4 possible answers. Feel free to edit this seeder, but note
-	 * that the order in which you create and save quizzes/questions/answers to the
+	 * This method seeds the database with a User. Feel free to edit this seeder, but note
+	 * that the order in which you create and save objects to the
 	 * database does matter.
 	 */
 	@Override

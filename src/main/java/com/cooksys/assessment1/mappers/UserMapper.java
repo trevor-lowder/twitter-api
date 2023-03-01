@@ -3,6 +3,7 @@ package com.cooksys.assessment1.mappers;
 import java.util.List;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import com.cooksys.assessment1.dtos.UserRequestDto;
 import com.cooksys.assessment1.dtos.UserResponseDto;
@@ -18,6 +19,7 @@ import com.cooksys.assessment1.entities.User;
 @Mapper(componentModel = "spring", uses = { ProfileMapper.class, CredentialsMapper.class })
 public interface UserMapper {
 	
+	@Mapping(target="userName", source="credentials.userName")
 	UserResponseDto entityToDto(User entity);
 
 	List<UserResponseDto> entitiesToDtos(List<User> entities);
