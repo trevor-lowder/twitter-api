@@ -17,10 +17,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class HashtagDto {
 
-  @Id
-  @GeneratedValue
-  private Long id;
-
   private String label;
   
   private Timestamp firstUsed;
