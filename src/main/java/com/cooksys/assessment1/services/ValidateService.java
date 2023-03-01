@@ -9,4 +9,18 @@ package com.cooksys.assessment1.services;
  */
 public interface ValidateService {
 
+	/**
+	 * 
+	 * @param userName String
+	 * @return Boolean of true is username exists, false otherwise
+	 */
+	Boolean ifUserNameExists(String userName);
+
+	/**
+	 * 
+	 * @param userName String
+	 * @return Boolean of true is username is available, false otherwise
+	 */
+	Boolean ifUserNameAvailable(String userName);
+
 }
