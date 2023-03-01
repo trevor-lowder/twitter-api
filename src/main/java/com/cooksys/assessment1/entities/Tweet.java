@@ -1,18 +1,12 @@
 package com.cooksys.assessment1.entities;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
-import org.hibernate.annotations.CreationTimestamp;
-
 import java.sql.Timestamp;
-
-import java.util.List;
-
-// import com.cooksys.assesment1.entities.User
+// import java.util.ArrayList;
+// import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -25,18 +19,11 @@ public class Tweet {
     @Column(name = "id")
     private Long id;
 
-    // TODO remove comments once User object is added
-    /*
-     * @ManyToOne(fetch = FetchType.LAZY)
-     * 
-     * @JoinColumn(name = "author")
-     * 
-     * @EqualsAndHashCode.Exclude
-     * private User author;
-     */
+    // @ManyToOne
+    // @JoinColumn(name = "author")
+    // private User author;
 
     @Column(name = "posted")
-    @CreationTimestamp
     private Timestamp posted;
 
     @Column(name = "deleted")
@@ -46,19 +33,23 @@ public class Tweet {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "id")
-    @EqualsAndHashCode.Exclude
+    @JoinColumn(name = "inReplyTo")
     private Tweet inReplyTo;
 
     @ManyToOne
     @JoinColumn(name = "repostOf")
-    @EqualsAndHashCode.Exclude
     private Tweet repostOf;
 
-    @ManyToMany(mappedBy = "likedTweets")
-    private List<Tweet> likes;
+    // @ManyToMany
+    // @JoinTable(name = "tweet_hashtags",
+    // joinColumns = @JoinColumn(name = "tweet_id"),
+    // inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
+    // private List<Hashtag> hashtags = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "mentionedTweets")
-    private List<Tweet> mentions;
+    // @ManyToMany(mappedBy = "likedTweets")
+    // private List<User> likedBy = new ArrayList<>();
+
+    // @ManyToMany(mappedBy = "mentionedTweets")
+    // private List<User> mentionedBy = new ArrayList<>();
 
 }

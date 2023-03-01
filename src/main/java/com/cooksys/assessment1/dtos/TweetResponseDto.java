@@ -1,35 +1,25 @@
+
 package com.cooksys.assessment1.dtos;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.sql.Timestamp;
+// import java.util.List;
 
-import org.hibernate.annotations.CreationTimestamp;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import lombok.Data;
-
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class TweetResponseDto {
-
-    @JsonProperty("tweet_id")
     private Long id;
-
-    @JsonProperty("content")
     private String content;
-
-    // TODO import UserResponseDto
-    /*
-     * @JsonProperty("tweet_author")
-     * private UserResponseDto author;
-     */
-
-    @CreationTimestamp
-    @JsonProperty("posted")
+    // private UserResponseDto author;
     private Timestamp posted;
-
-    @JsonProperty("in_reply_to")
+    private boolean deleted;
     private TweetResponseDto inReplyTo;
-
-    @JsonProperty("repost_of")
     private TweetResponseDto repostOf;
+    // private List<HashtagResponseDto> hashtags;
+    // private List<UserResponseDto> mentionedBy;
+    // private List<UserResponseDto> likedBy;
 }
