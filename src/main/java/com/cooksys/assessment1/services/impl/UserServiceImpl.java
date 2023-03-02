@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService {
 				throw new BadRequestException("The given username is already in use.");
 			}
 			else if(foundUser.getCredentials().getPassword().equals(user.getCredentials().getPassword())){
-				foundUser.setDeleted(true);
+				foundUser.setDeleted(false);
 				foundUser.getCredentials().setPassword(user.getCredentials().getPassword());;
 				foundUser.getProfile().setFirstName(user.getProfile().getFirstName());
 				foundUser.getProfile().setLastName(user.getProfile().getLastName());
@@ -167,8 +167,22 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public UserResponseDto deleteUser(CredentialsDto credentialsDto, String userName) {
-		// TODO Auto-generated method stub
-		return null;
+
+		if(credentialsDto == null || credentialsDto.getUsername() == null || credentialsDto.getPassword() == null || userName == null) {
+			throw new BadRequestException("Username and password are required.");
+		}
+		
+		User searchedUser = findNotDeletedUser(userName);
+		
+		if(credentialsDto.getPassword().equals(searchedUser.getCredentials().getPassword())) {
+			
+			searchedUser.setDeleted(true);
+			
+			return userMapper.entityToDto(userRepository.saveAndFlush(searchedUser));
+		}
+		else {
+			throw new NotAuthorizedException("Password does not match for user: '" + searchedUser.getCredentials().getUsername() + "'");
+		}
 	}
 
 }
