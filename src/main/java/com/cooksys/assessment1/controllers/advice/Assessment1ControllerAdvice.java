@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.cooksys.assessment1.dtos.ErrorDto;
 import com.cooksys.assessment1.exceptions.BadRequestException;
@@ -17,7 +18,7 @@ public class Assessment1ControllerAdvice {
 
 	@ExceptionHandler(BadRequestException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ErrorDto handleBadREquestException(HttpServletRequest request, BadRequestException badRequestException) {
+	public ErrorDto handleBadRequestException(HttpServletRequest request, BadRequestException badRequestException) {
 		return new ErrorDto(badRequestException.getMessage());
 	}
 

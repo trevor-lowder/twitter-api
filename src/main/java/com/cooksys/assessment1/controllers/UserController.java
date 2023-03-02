@@ -2,10 +2,15 @@ package com.cooksys.assessment1.controllers;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cooksys.assessment1.dtos.UserRequestDto;
 import com.cooksys.assessment1.dtos.UserResponseDto;
 import com.cooksys.assessment1.services.UserService;
 
@@ -35,6 +40,18 @@ public class UserController {
 	@GetMapping
 	public List<UserResponseDto> getAllUsers() {
 		return userService.getAllUsers();
+	}
+
+	/**
+	 * 
+	 * @param userRequestDto containing a CredentialsDto and ProfileDto.
+	 * @return userResponseDto containing only data to send to client.
+	 */
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public UserResponseDto createUser(@RequestBody UserRequestDto userRequestDto) {
+		
+		return userService.createUser(userRequestDto);
 	}
 
 }

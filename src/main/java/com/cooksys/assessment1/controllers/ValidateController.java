@@ -1,5 +1,7 @@
 package com.cooksys.assessment1.controllers;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,5 +24,26 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/validate")
 public class ValidateController {
 
-	// private final ValidateService validateService;
+	private final ValidateService validateService;
+
+	/**
+	 * 
+	 * @param userName String
+	 * @return Boolean of true is username exists, false otherwise
+	 */
+	@GetMapping("/username/exists/@{userName}")
+	public Boolean ifUserNameExists(@PathVariable String userName) {
+		return validateService.ifUserNameExists(userName);
+	}
+
+	/**
+	 * 
+	 * @param userName String
+	 * @return Boolean of true is username is available, false otherwise
+	 */
+	@GetMapping("/username/available/@{userName}")
+	public Boolean ifUserNameAvailable(@PathVariable String userName) {
+		return validateService.ifUserNameAvailable(userName);
+	}
+
 }
