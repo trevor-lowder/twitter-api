@@ -15,7 +15,6 @@ import com.cooksys.assessment1.exceptions.NotFoundException;
 @ControllerAdvice(basePackages = { "com.cooksys.assessment1.controllers" })
 public class Assessment1ControllerAdvice {
 
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(BadRequestException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ErrorDto handleBadREquestException(HttpServletRequest request, BadRequestException badRequestException) {

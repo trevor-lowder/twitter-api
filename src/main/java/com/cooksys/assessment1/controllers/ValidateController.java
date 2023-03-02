@@ -3,7 +3,7 @@ package com.cooksys.assessment1.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cooksys.assessment1.services.ValidateService;
+// import com.cooksys.assessment1.services.ValidateService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,5 +22,5 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/validate")
 public class ValidateController {
 
-	private final ValidateService validateService;
+	// private final ValidateService validateService;
 }

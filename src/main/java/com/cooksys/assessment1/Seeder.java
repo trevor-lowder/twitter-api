@@ -5,8 +5,8 @@ import com.cooksys.assessment1.entities.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.cooksys.assessment1.repositories.HashtagRepository;
-import com.cooksys.assessment1.repositories.TweetRepository;
+// import com.cooksys.assessment1.repositories.HashtagRepository;
+// import com.cooksys.assessment1.repositories.TweetRepository;
 import com.cooksys.assessment1.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -22,8 +22,8 @@ import lombok.RequiredArgsConstructor;
 public class Seeder implements CommandLineRunner {
 
 	private final UserRepository userRepository;
-	private final TweetRepository tweetRepository;
-	private final HashtagRepository hashtagRepository;
+	// private final TweetRepository tweetRepository;
+	// private final HashtagRepository hashtagRepository;
 
 	/**
 	 * This method seeds the database with a User. Feel free to edit this seeder, but note

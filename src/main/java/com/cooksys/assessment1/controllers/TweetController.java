@@ -2,7 +2,7 @@ package com.cooksys.assessment1.controllers;
 
 import com.cooksys.assessment1.dtos.TweetRequestDto;
 import com.cooksys.assessment1.dtos.TweetResponseDto;
-import com.cooksys.assessment1.services.TweetService;
+// import com.cooksys.assessment1.services.TweetService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TweetController {
 
-    private final TweetService tweetService;
+    // private final TweetService tweetService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
