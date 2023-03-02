@@ -10,11 +10,13 @@ import com.cooksys.assessment1.dtos.CredentialsDto;
 import com.cooksys.assessment1.dtos.UserRequestDto;
 import com.cooksys.assessment1.dtos.UserResponseDto;
 import com.cooksys.assessment1.entities.Profile;
+import com.cooksys.assessment1.entities.Tweet;
 import com.cooksys.assessment1.entities.User;
 import com.cooksys.assessment1.exceptions.BadRequestException;
 import com.cooksys.assessment1.exceptions.NotAuthorizedException;
 import com.cooksys.assessment1.exceptions.NotFoundException;
 import com.cooksys.assessment1.mappers.UserMapper;
+import com.cooksys.assessment1.repositories.TweetRepository;
 import com.cooksys.assessment1.repositories.UserRepository;
 import com.cooksys.assessment1.services.UserService;
 
@@ -34,6 +36,7 @@ public class UserServiceImpl implements UserService {
 
 	private final UserRepository userRepository;
 	private final UserMapper userMapper;
+	private final TweetRepository tweetRepository;
 
 	/**
 	 * 
@@ -179,8 +182,13 @@ public class UserServiceImpl implements UserService {
 			
 			searchedUser.setDeleted(true);
 			
-			//TODO Set all user's tweets to deleted also
-			
+			// Get tweets by selected user, set to deleted, add to a List and push list to TweetRepository
+			List<Tweet> tweets = new ArrayList<>();
+			for(Tweet t : searchedUser.getTweets()) {
+				t.setDeleted(true);
+				tweets.add(t);
+			}
+			tweetRepository.saveAllAndFlush(tweets);
 			
 			return userMapper.entityToDto(userRepository.saveAndFlush(searchedUser));
 		}
