@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +14,7 @@ import com.cooksys.assessment1.exceptions.BadRequestException;
 import com.cooksys.assessment1.exceptions.NotAuthorizedException;
 import com.cooksys.assessment1.exceptions.NotFoundException;
 
+@ResponseBody
 @ControllerAdvice(basePackages = { "com.cooksys.assessment1.controllers" })
 public class Assessment1ControllerAdvice {
 
