@@ -11,6 +11,7 @@ import com.cooksys.assessment1.dtos.UserResponseDto;
 import com.cooksys.assessment1.entities.User;
 import com.cooksys.assessment1.exceptions.BadRequestException;
 import com.cooksys.assessment1.exceptions.NotAuthorizedException;
+import com.cooksys.assessment1.exceptions.NotFoundException;
 import com.cooksys.assessment1.mappers.UserMapper;
 import com.cooksys.assessment1.repositories.UserRepository;
 import com.cooksys.assessment1.services.UserService;
@@ -51,6 +52,17 @@ public class UserServiceImpl implements UserService {
 		}		
 		
 		return user;
+	}
+	
+	private User findNotDeletedUser(String userName) {
+		
+		Optional<User> user = userRepository.findByCredentialsUsernameAndDeletedFalse(userName);
+		
+		if(user.isEmpty()) {
+			throw new NotFoundException("No user found by username " + userName);
+		}
+		
+		return user.get();
 	}
 	
 	/**
@@ -108,8 +120,7 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public UserResponseDto getUser(String userName) {
-		// TODO Auto-generated method stub
-		return null;
+		return userMapper.entityToDto(findNotDeletedUser(userName));
 	}
 
 	/**
