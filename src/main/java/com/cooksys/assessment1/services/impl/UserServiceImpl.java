@@ -9,6 +9,7 @@ import com.cooksys.assessment1.dtos.UserRequestDto;
 import com.cooksys.assessment1.dtos.UserResponseDto;
 import com.cooksys.assessment1.entities.User;
 import com.cooksys.assessment1.exceptions.BadRequestException;
+import com.cooksys.assessment1.exceptions.NotAuthorizedException;
 import com.cooksys.assessment1.mappers.UserMapper;
 import com.cooksys.assessment1.repositories.UserRepository;
 import com.cooksys.assessment1.services.UserService;
@@ -73,13 +74,13 @@ public class UserServiceImpl implements UserService {
 		User user = validateAndConvertUserInput(userRequestDto);
 		
 		// Check is username exists, if exists and not deleted throw exception, if exists and deleted toggle deleted flag and update other fields
-		Optional<User> searchedUser = userRepository.findByCredentialsUsername(user.getCredentials().getPassword());
+		Optional<User> searchedUser = userRepository.findByCredentialsUsername(user.getCredentials().getUsername());
 		if(!searchedUser.isEmpty()) {
 			User foundUser = searchedUser.get();
 			if(foundUser.getDeleted() == false) {
 				throw new BadRequestException("The given username is already in use.");
 			}
-			else {
+			else if(foundUser.getCredentials().getPassword().equals(user.getCredentials().getPassword())){
 				foundUser.setDeleted(true);
 				foundUser.getCredentials().setPassword(user.getCredentials().getPassword());;
 				foundUser.getProfile().setFirstName(user.getProfile().getFirstName());
@@ -88,6 +89,9 @@ public class UserServiceImpl implements UserService {
 				foundUser.getProfile().setPhone(user.getProfile().getPhone());
 				
 				return userMapper.entityToDto(userRepository.saveAndFlush(foundUser));
+			}
+			else {
+				throw new NotAuthorizedException("Password does not match for user: " + foundUser.getCredentials().getUsername());
 			}
 		}
 		
