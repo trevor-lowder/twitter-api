@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cooksys.assessment1.services.ValidateService;
+// import com.cooksys.assessment1.services.ValidateService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -45,4 +45,5 @@ public class ValidateController {
 	public Boolean ifUserNameAvailable(@PathVariable String userName) {
 		return validateService.ifUserNameAvailable(userName);
 	}
+
 }

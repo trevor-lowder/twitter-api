@@ -3,12 +3,11 @@ package com.cooksys.assessment1.entities;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-
-import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,14 +17,12 @@ import lombok.NoArgsConstructor;
 @Data
 public class Hashtag {
 
-	@Id
-	@GeneratedValue
-	private Long id;
+  @Id
+  @GeneratedValue
+  private Long id;
 
-	private String label;
-
-	@CreationTimestamp
-	private Timestamp firstUsed;
+  @Column(unique = true)
+  private String label;
 
   private Timestamp lastUsed;
 

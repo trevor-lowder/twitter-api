@@ -3,6 +3,7 @@ package com.cooksys.assessment1.entities;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,19 +44,16 @@ public class User {
 	private Timestamp joined;
 
 	private Boolean deleted = false;
-	
-	@OneToMany(mappedBy = "author")
-    	private List<Tweet> tweets;
-	
+
+	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+	private List<Tweet> tweets;
+
 	@ManyToMany
-    private List<User> followers;
+	private List<User> followers;
 
-    @ManyToMany(mappedBy = "followers")
-    private List<User> following;
+	@ManyToMany(mappedBy = "followers")
+	private List<User> following;
 
-	// These two mappings are meant to be the User side of the likes and mentions
-	// many to many and will need to be uncommented once the Tweet class and related
-	// are in place
 	@ManyToMany
 	private List<Tweet> likedTweets;
 

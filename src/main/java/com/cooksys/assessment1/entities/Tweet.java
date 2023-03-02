@@ -58,8 +58,8 @@ public class Tweet {
 //	@OneToMany(mappedBy = "repostOf")
 //    private List<Tweet> reposts
 
-    @ManyToMany()
-    private List<Hashtag> hashtags;
+	@ManyToMany()
+	private List<Hashtag> hashtags;
 
 	@ManyToMany(mappedBy = "likedTweets")
 	private List<User> likedBy;
