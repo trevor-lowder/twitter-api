@@ -103,5 +103,16 @@ public class UserController {
 	public List<UserResponseDto> getFollowers(@PathVariable String userName) {
 		return userService.getFollowers(userName);
 	}
+	
+	/**
+	 * Takes in a string to find a User, then returns a list of all users followed by selected user.
+	 * 
+	 * @param userName of the user to return from
+	 * @return List of userReponseDtos of following users
+	 */
+	@GetMapping("/@{userName}/following")
+	public List<UserResponseDto> getFollowing(@PathVariable String userName) {
+		return userService.getFollowing(userName);
+	}
 
 }

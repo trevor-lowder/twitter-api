@@ -60,4 +60,12 @@ public interface UserService {
 	 */
 	List<UserResponseDto> getFollowers(String userName);
 
+	/**
+	 * Takes in a string to find a User, then returns a list of all users followed by selected user.
+	 * 
+	 * @param userName of the user to return from
+	 * @return List of userReponseDtos of following users
+	 */
+	List<UserResponseDto> getFollowing(String userName);
+
 }

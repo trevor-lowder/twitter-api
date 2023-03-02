@@ -206,4 +206,22 @@ public class UserServiceImpl implements UserService {
 		return followerDtos;
 	}
 
+	/**
+	 * Takes in a string to find a User, then returns a list of all users followed by selected user.
+	 * 
+	 * @param userName of the user to return from
+	 * @return List of userReponseDtos of following users
+	 */
+	@Override
+	public List<UserResponseDto> getFollowing(String userName) {
+		User user = findNotDeletedUser(userName);
+		List<UserResponseDto> followingDtos = new ArrayList<>();
+		for(User following : user.getFollowing()) {
+			if(following.getDeleted() == false) {
+				followingDtos.add(userMapper.entityToDto(following));
+			}
+		}
+		return followingDtos;
+	}
+
 }
