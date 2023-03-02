@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.cooksys.assessment1.dtos.CredentialsDto;
 import com.cooksys.assessment1.dtos.UserRequestDto;
 import com.cooksys.assessment1.dtos.UserResponseDto;
+import com.cooksys.assessment1.entities.Profile;
 import com.cooksys.assessment1.entities.User;
 import com.cooksys.assessment1.exceptions.BadRequestException;
 import com.cooksys.assessment1.exceptions.NotAuthorizedException;
@@ -59,7 +60,7 @@ public class UserServiceImpl implements UserService {
 		Optional<User> user = userRepository.findByCredentialsUsernameAndDeletedFalse(userName);
 		
 		if(user.isEmpty()) {
-			throw new NotFoundException("No user found by username " + userName);
+			throw new NotFoundException("No user found by username '" + userName + "'");
 		}
 		
 		return user.get();
@@ -106,7 +107,7 @@ public class UserServiceImpl implements UserService {
 				return userMapper.entityToDto(userRepository.saveAndFlush(foundUser));
 			}
 			else {
-				throw new NotAuthorizedException("Password does not match for user: " + foundUser.getCredentials().getUsername());
+				throw new NotAuthorizedException("Password does not match for user: '" + foundUser.getCredentials().getUsername() + "'");
 			}
 		}
 		
@@ -129,9 +130,34 @@ public class UserServiceImpl implements UserService {
 	 * @return userResponseDto containing only data to send to client
 	 */
 	@Override
-	public UserResponseDto renameUser(UserRequestDto userRequestDto, String userName) {
-		// TODO Auto-generated method stub
-		return null;
+	public UserResponseDto renameUser(UserRequestDto userRequestDto, String userName) {		
+		
+		User userInput = userMapper.requestDtoToEntity(userRequestDto);
+		if(userInput.getCredentials() == null || userInput.getProfile() == null || userInput.getCredentials().getUsername() == null || userInput.getCredentials().getPassword() == null || userName == null) {
+			throw new BadRequestException("An account username with password to access and a username to change are required.");
+		}
+		User searchedUser = findNotDeletedUser(userName);
+		
+		if(userInput.getCredentials().getPassword().equals(searchedUser.getCredentials().getPassword())) {
+			
+			if(userInput.getProfile().getFirstName() != null) {
+				searchedUser.getProfile().setFirstName(userInput.getProfile().getFirstName());
+			}
+			if(userInput.getProfile().getLastName() != null) {
+				searchedUser.getProfile().setLastName(userInput.getProfile().getLastName());
+			}
+			if(userInput.getProfile().getEmail() != null) {
+				searchedUser.getProfile().setEmail(userInput.getProfile().getEmail());
+			}
+			if(userInput.getProfile().getPhone() != null) {
+				searchedUser.getProfile().setPhone(userInput.getProfile().getPhone());
+			}
+				
+			return userMapper.entityToDto(userRepository.saveAndFlush(searchedUser));
+		}
+		else {
+			throw new NotAuthorizedException("Password does not match for user: '" + searchedUser.getCredentials().getUsername() + "'");
+		}
 	}
 
 	/**
