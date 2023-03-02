@@ -1,5 +1,6 @@
 package com.cooksys.assessment1.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -130,7 +131,7 @@ public class UserServiceImpl implements UserService {
 	 * @return userResponseDto containing only data to send to client
 	 */
 	@Override
-	public UserResponseDto renameUser(UserRequestDto userRequestDto, String userName) {		
+	public UserResponseDto updateUser(UserRequestDto userRequestDto, String userName) {		
 		
 		User userInput = userMapper.requestDtoToEntity(userRequestDto);
 		if(userInput.getCredentials() == null || userInput.getProfile() == null || userInput.getCredentials().getUsername() == null || userInput.getCredentials().getPassword() == null || userName == null) {
@@ -178,11 +179,31 @@ public class UserServiceImpl implements UserService {
 			
 			searchedUser.setDeleted(true);
 			
+			//TODO Set all user's tweets to deleted also
+			
 			return userMapper.entityToDto(userRepository.saveAndFlush(searchedUser));
 		}
 		else {
 			throw new NotAuthorizedException("Password does not match for user: '" + searchedUser.getCredentials().getUsername() + "'");
 		}
+	}
+
+	/**
+	 * Takes in a string to find a User, then returns a list of all users following the selected user.
+	 * 
+	 * @param userName of the user to return from
+	 * @return List of userReponseDtos of followers
+	 */
+	@Override
+	public List<UserResponseDto> getFollowers(String userName) {
+		User user = findNotDeletedUser(userName);
+		List<UserResponseDto> followerDtos = new ArrayList<>();
+		for(User follower : user.getFollowers()) {
+			if(follower.getDeleted() == false) {
+				followerDtos.add(userMapper.entityToDto(follower));
+			}
+		}
+		return followerDtos;
 	}
 
 }

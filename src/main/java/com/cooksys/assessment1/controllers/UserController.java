@@ -76,8 +76,8 @@ public class UserController {
 	 */
 	@PatchMapping("/@{userName}")
 	@ResponseStatus(HttpStatus.OK)
-	public UserResponseDto renameUser(@RequestBody UserRequestDto userRequestDto, @PathVariable String userName) {
-		return userService.renameUser(userRequestDto, userName);
+	public UserResponseDto updateUser(@RequestBody UserRequestDto userRequestDto, @PathVariable String userName) {
+		return userService.updateUser(userRequestDto, userName);
 	}
 
 	/**
@@ -91,6 +91,17 @@ public class UserController {
 	@ResponseStatus(HttpStatus.OK)
 	public UserResponseDto deleteUser(@RequestBody CredentialsDto credentialsDto, @PathVariable String userName) {
 		return userService.deleteUser(credentialsDto, userName);
+	}
+	
+	/**
+	 * Takes in a string to find a User, then returns a list of all users following the selected user.
+	 * 
+	 * @param userName of the user to return from
+	 * @return List of userReponseDtos of followers
+	 */
+	@GetMapping("/@{userName}/followers")
+	public List<UserResponseDto> getFollowers(@PathVariable String userName) {
+		return userService.getFollowers(userName);
 	}
 
 }

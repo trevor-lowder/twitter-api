@@ -41,7 +41,7 @@ public interface UserService {
 	 * @param userName String to change selected username to.
 	 * @return userResponseDto containing only data to send to client
 	 */
-	UserResponseDto renameUser(UserRequestDto userRequestDto, String userName);
+	UserResponseDto updateUser(UserRequestDto userRequestDto, String userName);
 
 	/**
 	 * Verifies user and if verified deletes username passed in URL.
@@ -51,5 +51,13 @@ public interface UserService {
 	 * @return userResponseDto containing only data to send to client
 	 */
 	UserResponseDto deleteUser(CredentialsDto credentialsDto, String userName);
+
+	/**
+	 * Takes in a string to find a User, then returns a list of all users following the selected user.
+	 * 
+	 * @param userName of the user to return from
+	 * @return List of userReponseDtos of followers
+	 */
+	List<UserResponseDto> getFollowers(String userName);
 
 }
