@@ -46,10 +46,16 @@ public class Tweet {
 	@ManyToOne
 	@JoinColumn(name = "inReplyTo")
 	private Tweet inReplyTo;
+	
+	@OneToMany(mappedBy = "inReplyTo")
+    	private List<Tweet> replies = new ArrayList<>();
 
 	@ManyToOne
 	@JoinColumn(name = "repostOf")
 	private Tweet repostOf;
+	
+	@OneToMany(mappedBy = "repostOf")
+    	private List<Tweet> reposts = new ArrayList<>();
 
     @ManyToMany()
     private List<Hashtag> hashtags;

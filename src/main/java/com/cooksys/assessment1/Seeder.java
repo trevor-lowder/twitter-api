@@ -26,9 +26,8 @@ public class Seeder implements CommandLineRunner {
 	private final HashtagRepository hashtagRepository;
 
 	/**
-	 * This method seeds the database with 2 quizzes. Each quiz has 4 questions and
-	 * each question has 4 possible answers. Feel free to edit this seeder, but note
-	 * that the order in which you create and save quizzes/questions/answers to the
+	 * This method seeds the database with a User. Feel free to edit this seeder, but note
+	 * that the order in which you create and save objects to the
 	 * database does matter.
 	 */
 	@Override
@@ -47,6 +46,20 @@ public class Seeder implements CommandLineRunner {
 		user1.setProfile(prof1);
 		
 		userRepository.saveAndFlush(user1);
+		
+		User user2 = new User();
+		Credentials cred2 = new Credentials();
+		Profile prof2 = new Profile();
+		cred2.setUserName("user2");
+		cred2.setPassword("password");
+		user2.setCredentials(cred2);
+		prof2.setFirstName("second");
+		prof2.setLastName("last");
+		prof2.setEmail("2.email");
+		prof2.setPhone("999-999-9999");
+		user2.setProfile(prof2);
+		
+		userRepository.saveAndFlush(user2);
 	}
 
 }
