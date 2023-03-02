@@ -77,6 +77,15 @@ public interface UserService {
 	 */
 	void follow(CredentialsDto credentialsDto, String userName);
 
+	/**
+	 * Received credentials to access a User and removes the User linked to the provided
+	 * username from their followed list.
+	 * 
+	 * @param credentialsDto to verify user
+	 * @param userName to unfollow
+	 */
+	void unfollow(CredentialsDto credentialsDto, String userName);
+
 	
 
 }

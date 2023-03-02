@@ -181,6 +181,7 @@ public class UserServiceImpl implements UserService {
 			
 			//TODO Set all user's tweets to deleted also
 			
+			
 			return userMapper.entityToDto(userRepository.saveAndFlush(searchedUser));
 		}
 		else {
@@ -233,6 +234,45 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public void follow(CredentialsDto credentialsDto, String userName) {
+		if(credentialsDto == null || credentialsDto.getUsername() == null || credentialsDto.getPassword() == null || userName == null) {
+			throw new BadRequestException("Username and password are required.");
+		}
+		User userToFollow = findNotDeletedUser(userName);
+		User user = findNotDeletedUser(credentialsDto.getUsername());
+		if(credentialsDto.getPassword().equals(user.getCredentials().getPassword())) {
+			if(user.getFollowing().contains(userToFollow)) {
+				throw new NotFoundException("The supplied user is already following this user.");
+			}
+			else {
+				
+				//FIXME Does not add any entries in the database
+				//TOOD Remove logs
+				List<User> following = user.getFollowing();
+				
+				//System.out.println(following.size());
+				following.add(userToFollow);
+				
+				//System.out.println(following.size());
+				user.setFollowing(List.copyOf(following));
+				
+				//System.out.println();
+				userRepository.saveAllAndFlush(user.getFollowing());
+			}
+		}
+		else {
+			throw new NotAuthorizedException("Password does not match for user: '" + user.getCredentials().getUsername() + "'");
+		}
+	}
+
+	/**
+	 * Received credentials to access a User and removes the User linked to the provided
+	 * username from their followed list.
+	 * 
+	 * @param credentialsDto to verify user
+	 * @param userName to unfollow
+	 */
+	@Override
+	public void unfollow(CredentialsDto credentialsDto, String userName) {
 		System.out.println(credentialsDto);
 		System.out.println(userName);
 		if(credentialsDto == null || credentialsDto.getUsername() == null || credentialsDto.getPassword() == null || userName == null) {
@@ -242,14 +282,18 @@ public class UserServiceImpl implements UserService {
 		User user = findNotDeletedUser(credentialsDto.getUsername());
 		if(credentialsDto.getPassword().equals(user.getCredentials().getPassword())) {
 			if(user.getFollowing().contains(userToFollow)) {
-				throw new BadRequestException("The supplied user is already following this user.");
-			}
-			else {
-				user.getFollowing().add(userToFollow);
+				
+				//FIXME Does not add any entries in the database
+				user.getFollowing().remove(userToFollow);
 				userRepository.saveAndFlush(user);
 			}
+			else {				
+				throw new NotFoundException("The supplied user is not following this user.");
+			}
 		}
-		return;
+		else {
+			throw new NotAuthorizedException("Password does not match for user: '" + user.getCredentials().getUsername() + "'");
+		}
 	}
 
 }
