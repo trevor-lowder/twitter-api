@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -48,14 +49,14 @@ public class Tweet {
 	private Tweet inReplyTo;
 	
 	@OneToMany(mappedBy = "inReplyTo")
-    	private List<Tweet> replies = new ArrayList<>();
+    	private List<Tweet> replies;
 
 	@ManyToOne
 	@JoinColumn(name = "repostOf")
 	private Tweet repostOf;
 	
 	@OneToMany(mappedBy = "repostOf")
-    	private List<Tweet> reposts = new ArrayList<>();
+    	private List<Tweet> reposts;
 
     @ManyToMany()
     private List<Hashtag> hashtags;
