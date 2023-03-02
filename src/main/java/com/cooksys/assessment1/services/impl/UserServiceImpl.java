@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.cooksys.assessment1.dtos.CredentialsDto;
 import com.cooksys.assessment1.dtos.UserRequestDto;
 import com.cooksys.assessment1.dtos.UserResponseDto;
 import com.cooksys.assessment1.entities.User;
@@ -47,8 +48,7 @@ public class UserServiceImpl implements UserService {
 				user.getProfile() == null ||
 				user.getProfile().getEmail() == null){
 			throw new BadRequestException("Username, Password, and Email are required fields.");
-		}
-		
+		}		
 		
 		return user;
 	}
@@ -62,6 +62,15 @@ public class UserServiceImpl implements UserService {
 		return userMapper.entitiesToDtos(userRepository.findByDeletedFalse());
 	}
 
+	/**
+	 * Takes in a userRequestDto, sends it off for validation and conversion to a User,
+	 * then searches the userRepository for a matching username. If match found tests deleted flag.
+	 * If deleted and password matches updates deleted user with dto data and marked deleted false.
+	 * If password doesn't match throws NotAuthorizedException.
+	 * If no matching username is found creates a new user and pushes to the database.
+	 * 
+	 * @return a userResponseDto of an updated user or a newly added user.
+	 */
 	@Override
 	public UserResponseDto createUser(UserRequestDto userRequestDto) {
 
@@ -90,6 +99,39 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		return userMapper.entityToDto(userRepository.saveAndFlush(user));
+	}
+
+	/**
+	 * Takes in a string to search for and return a username.
+	 * 
+	 * @return userResponseDto containing only data to send to client
+	 */
+	@Override
+	public UserResponseDto getUser(String userName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * Takes in a userRequestDto to verify credentials and a string to change username to.
+	 * 
+	 * @return userResponseDto containing only data to send to client
+	 */
+	@Override
+	public UserResponseDto renameUser(UserRequestDto userRequestDto, String userName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * Verifies user and if verified deletes username passed in URL.
+	 * 
+	 * @return userResponseDto containing only data to send to client
+	 */
+	@Override
+	public UserResponseDto deleteUser(CredentialsDto credentialsDto, String userName) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
