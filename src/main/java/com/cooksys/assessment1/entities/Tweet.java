@@ -30,13 +30,13 @@ public class Tweet {
 	@Column(name = "id")
 	private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "author")
-    private User author;
+	@ManyToOne
+	@JoinColumn(name = "author")
+	private User author;
 
-    @Column(name = "posted")
-    @CreationTimestamp
-    private Timestamp posted;
+	@Column(name = "posted")
+	@CreationTimestamp
+	private Timestamp posted;
 
 	@Column(name = "deleted")
 	private boolean deleted;
@@ -47,24 +47,24 @@ public class Tweet {
 	@ManyToOne
 	@JoinColumn(name = "inReplyTo")
 	private Tweet inReplyTo;
-	
+
 	@OneToMany(mappedBy = "inReplyTo")
-    	private List<Tweet> replies;
+	private List<Tweet> replies;
 
 	@ManyToOne
 	@JoinColumn(name = "repostOf")
 	private Tweet repostOf;
-	
+
 	@OneToMany(mappedBy = "repostOf")
-    	private List<Tweet> reposts;
+	private List<Tweet> reposts;
 
-    @ManyToMany()
-    private List<Hashtag> hashtags;
+	@ManyToMany()
+	private List<Hashtag> hashtags;
 
-    @ManyToMany(mappedBy = "likedTweets")
-    private List<User> likedBy;
+	@ManyToMany(mappedBy = "likedTweets")
+	private List<User> likedBy;
 
-    @ManyToMany(mappedBy = "mentionedTweets")
-    private List<User> mentionedBy;
+	@ManyToMany(mappedBy = "mentionedTweets")
+	private List<User> mentionedBy;
 
 }

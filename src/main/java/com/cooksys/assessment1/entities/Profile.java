@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Embeddable
 public class Profile implements Serializable {
+
 	/**
 	 * 
 	 */
