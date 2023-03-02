@@ -38,20 +38,14 @@ public class UserServiceImpl implements UserService {
 	 * @return User
 	 */
 	private User validateAndConvertUserInput(UserRequestDto userRequestDto) {
-		
-		
-		//FIXME This method currently throws the BadRequestException on all post requests.
-		// All values in the userRequestDto log as null.
-		// Problem seems to be somewhere between here and the endpoint in UserController where the RequestBody is taken in.
-		//TODO Remove this log
 
 		User user = userMapper.requestDtoToEntity(userRequestDto);
-
+			
 		if(user.getCredentials() == null ||
 				user.getCredentials().getUsername() == null ||
 				user.getCredentials().getPassword() == null ||
 				user.getProfile() == null ||
-				user.getProfile().getEmail() == null) {
+				user.getProfile().getEmail() == null){
 			throw new BadRequestException("Username, Password, and Email are required fields.");
 		}
 		

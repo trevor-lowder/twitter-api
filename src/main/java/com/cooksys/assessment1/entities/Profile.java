@@ -1,7 +1,5 @@
 package com.cooksys.assessment1.entities;
 
-import java.io.Serializable;
-
 import javax.persistence.Embeddable;
 
 import lombok.Data;
@@ -17,12 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Embeddable
-public class Profile implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7197642447942331842L;
+public class Profile {
 
 	private String firstName;
 

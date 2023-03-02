@@ -18,12 +18,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Embeddable
-public class Credentials implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -223701857395912542L;
-
+public class Credentials {
+	
 	@Column(unique=true)
 	private String username;
 
