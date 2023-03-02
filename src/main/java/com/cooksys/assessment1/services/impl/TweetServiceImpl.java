@@ -16,7 +16,6 @@ import com.cooksys.assessment1.services.TweetService;
 
 import lombok.RequiredArgsConstructor;
 
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
