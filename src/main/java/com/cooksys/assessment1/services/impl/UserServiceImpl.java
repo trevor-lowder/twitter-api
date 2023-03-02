@@ -224,4 +224,32 @@ public class UserServiceImpl implements UserService {
 		return followingDtos;
 	}
 
+	/**
+	 * Received credentials to access a User and adds the User linked to the provided
+	 * username to their followed list.
+	 * 
+	 * @param credentialsDto to verify user
+	 * @param userName to follow
+	 */
+	@Override
+	public void follow(CredentialsDto credentialsDto, String userName) {
+		System.out.println(credentialsDto);
+		System.out.println(userName);
+		if(credentialsDto == null || credentialsDto.getUsername() == null || credentialsDto.getPassword() == null || userName == null) {
+			throw new BadRequestException("Username and password are required.");
+		}
+		User userToFollow = findNotDeletedUser(userName);
+		User user = findNotDeletedUser(credentialsDto.getUsername());
+		if(credentialsDto.getPassword().equals(user.getCredentials().getPassword())) {
+			if(user.getFollowing().contains(userToFollow)) {
+				throw new BadRequestException("The supplied user is already following this user.");
+			}
+			else {
+				user.getFollowing().add(userToFollow);
+				userRepository.saveAndFlush(user);
+			}
+		}
+		return;
+	}
+
 }

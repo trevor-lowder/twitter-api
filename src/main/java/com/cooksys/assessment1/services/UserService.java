@@ -68,4 +68,15 @@ public interface UserService {
 	 */
 	List<UserResponseDto> getFollowing(String userName);
 
+	/**
+	 * Received credentials to access a User and adds the User linked to the provided
+	 * username to their followed list.
+	 * 
+	 * @param credentialsDto to verify user
+	 * @param userName to follow
+	 */
+	void follow(CredentialsDto credentialsDto, String userName);
+
+	
+
 }

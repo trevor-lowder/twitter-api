@@ -114,5 +114,19 @@ public class UserController {
 	public List<UserResponseDto> getFollowing(@PathVariable String userName) {
 		return userService.getFollowing(userName);
 	}
+	
+	/**
+	 * Received credentials to access a User and adds the User linked to the provided
+	 * username to their followed list.
+	 * 
+	 * @param credentialsDto to verify user
+	 * @param userName to follow
+	 */
+	@PostMapping("/@{userName}/follow")
+	@ResponseStatus(HttpStatus.OK)
+	public void follow(@RequestBody CredentialsDto credentialsDto, @PathVariable String userName) {
+		userService.follow(credentialsDto, userName);
+		return;
+	}
 
 }
