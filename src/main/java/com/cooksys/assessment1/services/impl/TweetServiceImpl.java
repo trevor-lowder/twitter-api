@@ -2,14 +2,24 @@ package com.cooksys.assessment1.services.impl;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.cooksys.assessment1.dtos.TweetContextDto;
 import com.cooksys.assessment1.dtos.TweetRequestDto;
 import com.cooksys.assessment1.dtos.TweetResponseDto;
 import com.cooksys.assessment1.dtos.UserRequestDto;
 import com.cooksys.assessment1.dtos.UserResponseDto;
+import com.cooksys.assessment1.repositories.TweetRepository;
 import com.cooksys.assessment1.services.TweetService;
 
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
 public class TweetServiceImpl implements TweetService {
+	
+	private final TweetRepository tweetRepository;
+	
     public TweetResponseDto createTweet(TweetRequestDto TweetRequestDto) {
         return null;
     }
