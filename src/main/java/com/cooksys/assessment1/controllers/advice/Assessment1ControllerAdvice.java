@@ -13,6 +13,7 @@ import com.cooksys.assessment1.exceptions.BadRequestException;
 import com.cooksys.assessment1.exceptions.NotAuthorizedException;
 import com.cooksys.assessment1.exceptions.NotFoundException;
 
+@RestController
 @ControllerAdvice(basePackages = { "com.cooksys.assessment1.controllers" })
 public class Assessment1ControllerAdvice {
 
