@@ -19,15 +19,15 @@ import com.cooksys.assessment1.entities.User;
 @Mapper(componentModel = "spring", uses = { ProfileMapper.class, CredentialsMapper.class })
 public interface UserMapper {
 	
-	@Mapping(target="profileDto", source="profile")
-	@Mapping(target="userName", source="credentials.userName")
+	//@Mapping(target="profileDto", source="profile")
+	@Mapping(target="username", source="credentials.username")
 	UserResponseDto entityToDto(User entity);
 
-	@Mapping(target="profileDto", source="profile")
-	@Mapping(target="userName", source="credentials.userName")
-	List<UserResponseDto> entitiesToDtos(List<User> entities);
-
+//	@Mapping(target="profile", source="profileDto")
+//	@Mapping(target="credentials", source="credentialsDto")
 	User requestDtoToEntity(UserRequestDto userRequestDto);
+	
+	List<UserResponseDto> entitiesToDtos(List<User> entities);
 
 	List<User> requestDtosToEntities(List<UserRequestDto> userRequestDtos);
 }
