@@ -13,21 +13,21 @@ public interface TweetService {
 
     TweetResponseDto deleteTweet(Long id);
 
-    // void createLike(Long tweetId, UserRequestDto UserRequestDto);
+    void createLike(Long tweetId, UserRequestDto UserRequestDto);
 
     TweetResponseDto createReply(Long tweetId, TweetRequestDto TweetRequestDto);
 
-    // TweetResponseDto createRepost(Long tweetId, UserRequestDto UserRequestDto);
+    TweetResponseDto createRepost(Long tweetId, UserRequestDto UserRequestDto);
 
     List<String> getTagsForTweet(Long tweetId);
 
-    // List<UserResponseDto> getUsersWhoLikedTweet(Long tweetId);
+    List<UserResponseDto> getUsersWhoLikedTweet(Long tweetId);
 
-    // ContextResponseDto getTweetContext(Long tweetId);
+    TweetContextDto getTweetContext(Long tweetId);
 
     List<TweetResponseDto> getDirectReplies(Long tweetId);
 
     List<TweetResponseDto> getDirectReposts(Long tweetId);
 
-    // List<UserResponseDto> getUsersMentionedInTweet(Long tweetId);
+    List<UserResponseDto> getUsersMentionedInTweet(Long tweetId);
 }

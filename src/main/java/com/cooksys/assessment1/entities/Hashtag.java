@@ -8,8 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
