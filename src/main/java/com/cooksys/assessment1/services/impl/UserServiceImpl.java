@@ -43,13 +43,11 @@ public class UserServiceImpl implements UserService {
 		// All values in the userRequestDto log as null.
 		// Problem seems to be somewhere between here and the endpoint in UserController where the RequestBody is taken in.
 		//TODO Remove this log
-		System.out.println(userRequestDto);
+
 		User user = userMapper.requestDtoToEntity(userRequestDto);
-		
-		//TODO Remove this log
-		System.out.println(user);
+
 		if(user.getCredentials() == null ||
-				user.getCredentials().getUserName() == null ||
+				user.getCredentials().getUsername() == null ||
 				user.getCredentials().getPassword() == null ||
 				user.getProfile() == null ||
 				user.getProfile().getEmail() == null) {
@@ -75,7 +73,7 @@ public class UserServiceImpl implements UserService {
 		User user = validateAndConvertUserInput(userRequestDto);
 		
 		// Check is username exists, if exists and not deleted throw exception, if exists and deleted toggle deleted flag and update other fields
-		Optional<User> searchedUser = userRepository.findByCredentialsUserName(user.getCredentials().getPassword());
+		Optional<User> searchedUser = userRepository.findByCredentialsUsername(user.getCredentials().getPassword());
 		if(!searchedUser.isEmpty()) {
 			User foundUser = searchedUser.get();
 			if(foundUser.getDeleted() == false) {

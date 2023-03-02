@@ -30,7 +30,7 @@ public class ValidateServiceImpl implements ValidateService{
 	 * @return Boolean true if a User is found, false otherwise
 	 */
 	private Boolean userExists(String userName){
-		Optional<User> user = userRepository.findByCredentialsUserName(userName);
+		Optional<User> user = userRepository.findByCredentialsUsername(userName);
 		if(user.isEmpty()) {
 			return false;
 		}

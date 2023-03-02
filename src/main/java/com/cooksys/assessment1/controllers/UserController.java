@@ -51,9 +51,6 @@ public class UserController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public UserResponseDto createUser(@RequestBody UserRequestDto userRequestDto) {
 		
-		//TODO Remove this log
-		System.out.println(userRequestDto);
-		
 		return userService.createUser(userRequestDto);
 	}
 

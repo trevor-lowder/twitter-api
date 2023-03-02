@@ -25,7 +25,7 @@ public class Credentials implements Serializable {
 	private static final long serialVersionUID = -223701857395912542L;
 
 	@Column(unique=true)
-	private String userName;
+	private String username;
 
 	private String password;
 }
