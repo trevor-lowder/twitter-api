@@ -1,5 +1,7 @@
 package com.cooksys.assessment1.services.impl;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,8 +43,10 @@ public class HashtagServiceImpl implements HashtagService {
 			throw new NotFoundException("No tweet found by label '" + label + "'");
 		}
 		
+		List<Tweet> t = h.getTweets();
 		
-		return tweetMapper.entitiesToResponseDtos(h.getTweets());
+		Collections.sort(t, Collections.reverseOrder(Comparator.comparing(Tweet::getPosted)));
+		return tweetMapper.entitiesToResponseDtos(t);
 	}
 	
 

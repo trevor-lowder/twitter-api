@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cooksys.assessment1.dtos.HashtagDto;
 import com.cooksys.assessment1.dtos.TweetRequestDto;
 import com.cooksys.assessment1.dtos.TweetResponseDto;
 import com.cooksys.assessment1.dtos.UserResponseDto;
@@ -69,6 +70,9 @@ public class TweetController {
 		return tweetResponseDto;
 	}
 	
-	//@GetMapping("/{id}/tags")
-	//public 
+	@GetMapping("/{id}/tags")
+	public List<HashtagDto> getHashtagsFromTweetId(@PathVariable Long id) {
+		return tweetService.getHashtagsFromTweetId(id);
+		
+	}
 }

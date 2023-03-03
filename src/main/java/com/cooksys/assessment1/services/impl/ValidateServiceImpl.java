@@ -61,8 +61,6 @@ public class ValidateServiceImpl implements ValidateService{
 	@Override
 	public Boolean ifTagExists(String label) {
 		Hashtag h = hashtagRepository.findByLabel(label);
-		
-		
 
 		
 		if(h.equals(null)) {

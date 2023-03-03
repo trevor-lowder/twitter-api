@@ -13,5 +13,5 @@ public interface HashtagRepository extends JpaRepository<Hashtag, Long> {
 	Hashtag findByLabel(String label);
 
 	List<Hashtag> findAllByLabel(String label);
-
+	
 }
