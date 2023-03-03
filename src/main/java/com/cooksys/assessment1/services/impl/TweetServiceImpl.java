@@ -86,6 +86,17 @@ public class TweetServiceImpl implements TweetService {
         }
         return hashtags;
     }
+    
+    public List<String> parseMentions(String content) {
+        List<String> mentions = new ArrayList<>();
+        String[] words = content.split("\\s+");
+        for (String word : words) {
+            if (word.startsWith("@")) {
+                mentions.add(word.substring(1));
+            }
+        }
+        return mentions;
+    }
 
     /**
      * Takes in a tweetRequestDto, sends the credentials to a private method for
@@ -130,7 +141,26 @@ public class TweetServiceImpl implements TweetService {
         
         // Finds and adds mentions
         
-        
+//        List<String> mentionStrings = parseMentions(tweet.getContent());
+//        List<User> mentions = new ArrayList<>();
+//        for(String s : mentionStrings) {
+//        	
+//        	Optional<User> searchedMention = userRepository.findByCredentialsUsername(s);
+//        	
+//        	if(tweet.getMentionedBy().contains(searchedMention.get())) {
+//        		User tag = new Hashtag();
+//        		tag.setLabel(s);
+//            	tags.add(tag);
+//            	tag.setLastUsed(tweet.getPosted());        		
+//        		hashtagRepository.saveAndFlush(tag);
+//        	}
+//        	else {
+//        		searchedMention.get().setLastUsed(tweet.getPosted());
+//        		tags.add(searchedMention.get());
+//        	}        	
+//        	
+//        }
+//        tweet.setHashtags(tags);      
         
         
         
