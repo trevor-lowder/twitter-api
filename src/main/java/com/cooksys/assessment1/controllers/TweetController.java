@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cooksys.assessment1.dtos.HashtagDto;
 import com.cooksys.assessment1.dtos.TweetRequestDto;
 import com.cooksys.assessment1.dtos.TweetResponseDto;
 import com.cooksys.assessment1.dtos.UserResponseDto;
@@ -54,6 +55,11 @@ public class TweetController {
 		return tweetService.getReplies(id);
 	}
 
+	@GetMapping("/tweets/{id}/mentions")
+	public List<UserResponseDto> getMentions(@PathVariable Long id) {
+		return tweetService.getMentions(id);
+	}
+
 	@PatchMapping("/{id}")
 	public TweetResponseDto updateTweet(@PathVariable Long id, @RequestBody TweetRequestDto tweetRequestDto) {
 		// TODO: Implement this method
@@ -65,5 +71,11 @@ public class TweetController {
 	public TweetResponseDto deleteTweet(@PathVariable Long id) {
 		TweetResponseDto tweetResponseDto = tweetService.deleteTweet(id);
 		return tweetResponseDto;
+	}
+	
+	@GetMapping("/{id}/tags")
+	public List<HashtagDto> getHashtagsFromTweetId(@PathVariable Long id) {
+		return tweetService.getHashtagsFromTweetId(id);
+		
 	}
 }
