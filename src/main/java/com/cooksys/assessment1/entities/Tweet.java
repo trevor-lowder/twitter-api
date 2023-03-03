@@ -49,6 +49,7 @@ public class Tweet {
 	private Tweet inReplyTo;
 
 	@OneToMany(mappedBy = "inReplyTo")
+
     private List<Tweet> replies;
 
 	@ManyToOne
@@ -56,6 +57,7 @@ public class Tweet {
 	private Tweet repostOf;
 
 	@OneToMany(mappedBy = "repostOf")
+
     private List<Tweet> reposts;
 
 	@ManyToMany()
