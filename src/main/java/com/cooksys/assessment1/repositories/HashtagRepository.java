@@ -10,7 +10,7 @@ import com.cooksys.assessment1.entities.Hashtag;
 
 public interface HashtagRepository extends JpaRepository<Hashtag, Long> {
 	
-	Hashtag findByLabel(String label);
+	Optional<Hashtag> findByLabel(String label);
 
 	List<Hashtag> findAllByLabel(String label);
 	
