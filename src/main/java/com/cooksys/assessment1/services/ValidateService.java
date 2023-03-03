@@ -23,4 +23,8 @@ public interface ValidateService {
 	 */
 	Boolean ifUserNameAvailable(String userName);
 
+	Boolean ifTagExists(String label);
+	
+	
+	
 }
