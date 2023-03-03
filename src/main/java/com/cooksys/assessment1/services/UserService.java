@@ -3,12 +3,13 @@ package com.cooksys.assessment1.services;
 import java.util.List;
 
 import com.cooksys.assessment1.dtos.CredentialsDto;
+import com.cooksys.assessment1.dtos.TweetResponseDto;
 import com.cooksys.assessment1.dtos.UserRequestDto;
 import com.cooksys.assessment1.dtos.UserResponseDto;
 
 /**
- * The UserService interface is an intermediate interface used to allow simple update/replacement of
- * the implementing class.
+ * The UserService interface is an intermediate interface used to allow simple
+ * update/replacement of the implementing class.
  * 
  * @author Scott VanBrunt
  *
@@ -47,13 +48,14 @@ public interface UserService {
 	 * Verifies user and if verified deletes username passed in URL.
 	 * 
 	 * @param credentialsDto to verify user
-	 * @param userName of user to delete
+	 * @param userName       of user to delete
 	 * @return userResponseDto containing only data to send to client
 	 */
 	UserResponseDto deleteUser(CredentialsDto credentialsDto, String userName);
 
 	/**
-	 * Takes in a string to find a User, then returns a list of all users following the selected user.
+	 * Takes in a string to find a User, then returns a list of all users following
+	 * the selected user.
 	 * 
 	 * @param userName of the user to return from
 	 * @return List of userReponseDtos of followers
@@ -61,7 +63,8 @@ public interface UserService {
 	List<UserResponseDto> getFollowers(String userName);
 
 	/**
-	 * Takes in a string to find a User, then returns a list of all users followed by selected user.
+	 * Takes in a string to find a User, then returns a list of all users followed
+	 * by selected user.
 	 * 
 	 * @param userName of the user to return from
 	 * @return List of userReponseDtos of following users
@@ -69,23 +72,48 @@ public interface UserService {
 	List<UserResponseDto> getFollowing(String userName);
 
 	/**
-	 * Received credentials to access a User and adds the User linked to the provided
-	 * username to their followed list.
+	 * Received credentials to access a User and adds the User linked to the
+	 * provided username to their followed list.
 	 * 
 	 * @param credentialsDto to verify user
-	 * @param userName to follow
+	 * @param userName       to follow
 	 */
 	void follow(CredentialsDto credentialsDto, String userName);
 
 	/**
-	 * Received credentials to access a User and removes the User linked to the provided
-	 * username from their followed list.
+	 * Received credentials to access a User and removes the User linked to the
+	 * provided username from their followed list.
 	 * 
 	 * @param credentialsDto to verify user
-	 * @param userName to unfollow
+	 * @param userName       to unfollow
 	 */
 	void unfollow(CredentialsDto credentialsDto, String userName);
 
-	
+	/**
+	 * Takes a string to find a User and returns a List of all Tweets the user is
+	 * mentioned in reverse-chronological order.
+	 * 
+	 * @param userName string to search for a User by
+	 * @return List of TweetResponseDtos
+	 */
+	List<TweetResponseDto> getMentions(String userName);
+
+	/**
+	 * Takes a string to find a User and returns a List of all Tweets the user has
+	 * posted in reverse-chronological order.
+	 * 
+	 * @param userName string to search for a User by
+	 * @return List of TweetResponseDtos
+	 */
+	List<TweetResponseDto> getTweets(String userName);
+
+	/**
+	 * Takes a string to find a User and returns a List of all Tweets the user has
+	 * posted and those posted by followed users in reverse-chronological order.
+	 * 
+	 * @param userName string to search for a User by
+	 * @return List of TweetResponseDtos
+	 */
+	List<TweetResponseDto> getFeed(String userName);
 
 }

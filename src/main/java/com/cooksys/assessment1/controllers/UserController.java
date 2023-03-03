@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cooksys.assessment1.dtos.CredentialsDto;
+import com.cooksys.assessment1.dtos.TweetResponseDto;
 import com.cooksys.assessment1.dtos.UserRequestDto;
 import com.cooksys.assessment1.dtos.UserResponseDto;
 import com.cooksys.assessment1.services.UserService;
@@ -92,9 +93,10 @@ public class UserController {
 	public UserResponseDto deleteUser(@RequestBody CredentialsDto credentialsDto, @PathVariable String userName) {
 		return userService.deleteUser(credentialsDto, userName);
 	}
-	
+
 	/**
-	 * Takes in a string to find a User, then returns a list of all users following the selected user.
+	 * Takes in a string to find a User, then returns a list of all users following
+	 * the selected user.
 	 * 
 	 * @param userName of the user to return from
 	 * @return List of userReponseDtos of followers
@@ -103,9 +105,10 @@ public class UserController {
 	public List<UserResponseDto> getFollowers(@PathVariable String userName) {
 		return userService.getFollowers(userName);
 	}
-	
+
 	/**
-	 * Takes in a string to find a User, then returns a list of all users followed by selected user.
+	 * Takes in a string to find a User, then returns a list of all users followed
+	 * by selected user.
 	 * 
 	 * @param userName of the user to return from
 	 * @return List of userReponseDtos of following users
@@ -114,31 +117,67 @@ public class UserController {
 	public List<UserResponseDto> getFollowing(@PathVariable String userName) {
 		return userService.getFollowing(userName);
 	}
-	
+
 	/**
-	 * Received credentials to access a User and adds the User linked to the provided
-	 * username to their followed list.
+	 * Received credentials to access a User and adds the User linked to the
+	 * provided username to their followed list.
 	 * 
 	 * @param credentialsDto to verify user
-	 * @param userName to follow
+	 * @param userName       to follow
 	 */
 	@PostMapping("/@{userName}/follow")
 	@ResponseStatus(HttpStatus.OK)
 	public void follow(@RequestBody CredentialsDto credentialsDto, @PathVariable String userName) {
 		userService.follow(credentialsDto, userName);
 	}
-	
+
 	/**
-	 * Received credentials to access a User and removes the User linked to the provided
-	 * username from their followed list.
+	 * Received credentials to access a User and removes the User linked to the
+	 * provided username from their followed list.
 	 * 
 	 * @param credentialsDto to verify user
-	 * @param userName to unfollow
+	 * @param userName       to unfollow
 	 */
 	@PostMapping("/@{userName}/unfollow")
 	@ResponseStatus(HttpStatus.OK)
 	public void unfollow(@RequestBody CredentialsDto credentialsDto, @PathVariable String userName) {
 		userService.unfollow(credentialsDto, userName);
+	}
+
+	/**
+	 * Takes a string to find a User and returns a List of all Tweets the user is
+	 * mentioned in reverse-chronological order.
+	 * 
+	 * @param userName string to search for a User by
+	 * @return List of TweetResponseDtos
+	 */
+	@GetMapping("/@{userName}/mentions")
+	public List<TweetResponseDto> getMentions(@PathVariable String userName) {
+		return userService.getMentions(userName);
+	}
+
+	/**
+	 * Takes a string to find a User and returns a List of all Tweets the user has
+	 * posted in reverse-chronological order.
+	 * 
+	 * @param userName string to search for a User by
+	 * @return List of TweetResponseDtos
+	 */
+	@GetMapping("/@{userName}/tweets")
+	public List<TweetResponseDto> getTweets(@PathVariable String userName) {
+		return userService.getTweets(userName);
+	}
+
+	/**
+	 * Takes a string to find a User and returns a List of all Tweets the user has
+	 * posted and those posted by followed users in reverse-chronological order.
+	 * 
+	 * @param userName string to search for a User by
+	 * @return List of TweetResponseDtos
+	 */
+	@GetMapping("/@{userName}/feed")
+	public List<TweetResponseDto> getFeed(@PathVariable String userName) {
+		return userService.getFeed(userName);
 	}
 
 }
