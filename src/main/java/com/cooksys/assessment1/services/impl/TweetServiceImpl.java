@@ -115,6 +115,7 @@ public class TweetServiceImpl implements TweetService {
 
 		Tweet tweet = tweetMapper.requestDtoToEntity(tweetRequestDto);
 		tweet.setAuthor(user);
+		tweet.setMentionedBy(new ArrayList<User>());
 		tweet = tweetRepository.saveAndFlush(tweet);
 
 		// Finds and adds hashtags
@@ -140,11 +141,19 @@ public class TweetServiceImpl implements TweetService {
 
 		// Finds and adds mentions
 
-//        List<String> mentionStrings = parseMentions(tweet.getContent());
-//        List<User> mentions = new ArrayList<>();
-//        for(String s : mentionStrings) {
-//        	
-//        	Optional<User> searchedMention = userRepository.findByCredentialsUsername(s);
+        List<String> mentionStrings = parseMentions(tweet.getContent());
+        List<User> mentions = new ArrayList<>();
+        for(String s : mentionStrings) {
+        	
+        	Optional<User> searchedMention = userRepository.findByCredentialsUsernameAndDeletedFalse(s);
+        	
+        	if(!searchedMention.isEmpty()) {
+        		if(!(tweet.getMentionedBy().contains(searchedMention.get()))) {
+        			searchedMention.get().getMentionedTweets().add(tweet);
+        			mentions.add(searchedMention.get());
+        			
+        		}
+        	}
 //        	
 //        	if(tweet.getMentionedBy().contains(searchedMention.get())) {
 //        		User tag = new Hashtag();
@@ -157,9 +166,9 @@ public class TweetServiceImpl implements TweetService {
 //        		searchedMention.get().setLastUsed(tweet.getPosted());
 //        		tags.add(searchedMention.get());
 //        	}        	
-//        	
-//        }
-//        tweet.setHashtags(tags);      
+        	
+        }
+        userRepository.saveAllAndFlush(mentions);
 
 		return tweetMapper.entityToResponseDto(tweetRepository.saveAndFlush(tweet));
 	}
