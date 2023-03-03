@@ -150,20 +150,8 @@ public class TweetServiceImpl implements TweetService {
 
         // TODO Add parsing methods to find mentions and hashtags in tweet content.
 
-<<<<<<< HEAD
-	public TweetResponseDto createRepost(Long tweetId, UserRequestDto userRequestDto) {
-		User user = ValidateUser(userRequestDto.getCredentials());
-        Tweet tweet = getValidTweet(tweetId);
-        Tweet repost = new Tweet();
-        repost.setAuthor(user);
-        repost.setRepostOf(tweet);
-        repost = tweetRepository.save(repost);
-        return tweetMapper.entityToResponseDto(repost);
-	}
-=======
         return tweetMapper.entityToResponseDto(tweetRepository.saveAndFlush(newTweet));
     }
->>>>>>> e821d976d695ba8feb413951c19bd512b4def3b4
 
     public TweetResponseDto createRepost(Long tweetId, UserRequestDto userRequestDto) {
         User user = ValidateUser(userRequestDto.getCredentials());
@@ -220,12 +208,8 @@ public class TweetServiceImpl implements TweetService {
         return userMapper.entitiesToDtos(mentionedUsers);
     }
 
-<<<<<<< HEAD
-		Tweet tweet = getValidTweet(id);
-=======
     @Override
     public List<HashtagDto> getHashtagsFromTweetId(Long id) {
->>>>>>> e821d976d695ba8feb413951c19bd512b4def3b4
 
         Tweet tweet = getValidTweet(id);
 
