@@ -52,8 +52,6 @@ public class TweetServiceImpl implements TweetService {
     	//FIXME responseDto is returning a null username, all other fields are correct
     	//TODO Add parsing methods to find mentions and hashtags in tweet content.
     	
-    	//System.out.println(tweet);
-    	
         return tweetMapper.entityToResponseDto(tweetRepository.saveAndFlush(tweet));
     }
 
