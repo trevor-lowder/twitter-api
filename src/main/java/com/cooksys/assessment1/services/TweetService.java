@@ -19,8 +19,6 @@ public interface TweetService {
 
     TweetResponseDto createRepost(Long tweetId, UserRequestDto UserRequestDto);
 
-    List<String> getTags(Long tweetId);
-
     List<UserResponseDto> getLikes(Long tweetId);
 
     TweetContextDto getContext(Long tweetId);
