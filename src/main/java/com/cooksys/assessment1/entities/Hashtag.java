@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,6 +25,9 @@ public class Hashtag {
 
   @Column(unique = true)
   private String label;
+  
+  @CreationTimestamp
+  private Timestamp firstUsed;
 
   private Timestamp lastUsed;
 

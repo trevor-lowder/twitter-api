@@ -1,5 +1,6 @@
 package com.cooksys.assessment1.services.impl;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,7 @@ import com.cooksys.assessment1.dtos.TweetRequestDto;
 import com.cooksys.assessment1.dtos.TweetResponseDto;
 import com.cooksys.assessment1.dtos.UserRequestDto;
 import com.cooksys.assessment1.dtos.UserResponseDto;
+import com.cooksys.assessment1.entities.Hashtag;
 import com.cooksys.assessment1.entities.Tweet;
 import com.cooksys.assessment1.entities.User;
 import com.cooksys.assessment1.exceptions.BadRequestException;
@@ -21,6 +23,7 @@ import com.cooksys.assessment1.exceptions.NotFoundException;
 import com.cooksys.assessment1.mappers.HashtagMapper;
 import com.cooksys.assessment1.mappers.TweetMapper;
 import com.cooksys.assessment1.mappers.UserMapper;
+import com.cooksys.assessment1.repositories.HashtagRepository;
 import com.cooksys.assessment1.repositories.TweetRepository;
 import com.cooksys.assessment1.repositories.UserRepository;
 import com.cooksys.assessment1.services.TweetService;
@@ -36,6 +39,7 @@ public class TweetServiceImpl implements TweetService {
     private final UserMapper userMapper;
     private final HashtagMapper hashtagMapper;
     private final UserRepository userRepository;
+    private final HashtagRepository hashtagRepository;
 
     /**
      * Checks that credentials exist, searches for a matching active user and
@@ -71,6 +75,17 @@ public class TweetServiceImpl implements TweetService {
         }
         return tweet;
     }
+    
+    public List<String> parseHashtags(String content) {
+        List<String> hashtags = new ArrayList<>();
+        String[] words = content.split("\\s+");
+        for (String word : words) {
+            if (word.startsWith("#")) {
+                hashtags.add(word.substring(1));
+            }
+        }
+        return hashtags;
+    }
 
     /**
      * Takes in a tweetRequestDto, sends the credentials to a private method for
@@ -89,8 +104,37 @@ public class TweetServiceImpl implements TweetService {
 
         Tweet tweet = tweetMapper.requestDtoToEntity(tweetRequestDto);
         tweet.setAuthor(user);
+        tweet = tweetRepository.saveAndFlush(tweet);
 
-        // TODO Add parsing methods to find mentions and hashtags in tweet content.
+        // Finds and adds hashtags
+        
+        List<String> tagStrings = parseHashtags(tweet.getContent());
+        List<Hashtag> tags = new ArrayList<>();
+        for(String s : tagStrings) {
+        	
+        	Optional<Hashtag> searchedTag = hashtagRepository.findByLabel(s);
+        	if(searchedTag.isEmpty()) {
+        		Hashtag tag = new Hashtag();
+        		tag.setLabel(s);
+            	tags.add(tag);
+            	tag.setLastUsed(tweet.getPosted());        		
+        		hashtagRepository.saveAndFlush(tag);
+        	}
+        	else {
+        		searchedTag.get().setLastUsed(tweet.getPosted());
+        		tags.add(searchedTag.get());
+        	}        	
+        	
+        }
+        tweet.setHashtags(tags);       
+        
+        // Finds and adds mentions
+        
+        
+        
+        
+        
+        
 
         return tweetMapper.entityToResponseDto(tweetRepository.saveAndFlush(tweet));
     }
