@@ -12,7 +12,7 @@ import com.cooksys.assessment1.dtos.UserResponseDto;
 
 public interface TweetService {
 
-	TweetResponseDto createTweet(TweetRequestDto TweetRequestDto);
+	TweetResponseDto createTweet(TweetRequestDto tweetRequestDto);
 
 	List<TweetResponseDto> getAllNonDeletedTweets();
 
@@ -22,9 +22,9 @@ public interface TweetService {
 
 	void createLike(Long tweetId, CredentialsDto credentialsDto);
 
-	TweetResponseDto createReply(Long tweetId, TweetRequestDto TweetRequestDto);
+	TweetResponseDto createReply(Long tweetId, TweetRequestDto tweetRequestDto);
 
-	TweetResponseDto createRepost(Long tweetId, UserRequestDto UserRequestDto);
+	TweetResponseDto createRepost(Long tweetId, UserRequestDto userRequestDto);
 
 	List<UserResponseDto> getLikes(Long tweetId);
 

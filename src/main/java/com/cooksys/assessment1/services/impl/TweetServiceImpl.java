@@ -133,15 +133,35 @@ public class TweetServiceImpl implements TweetService {
 
 		User user = ValidateUser(credentialsDto);
 		Tweet tweet = getValidTweet(tweetId);
-		
-		if(!(tweet.getLikedBy().contains(user))) {
+
+		if (!(tweet.getLikedBy().contains(user))) {
 			user.getLikedTweets().add(tweet);
 			userRepository.saveAndFlush(user);
 		}
 	}
 
-	public TweetResponseDto createReply(Long tweetId, TweetRequestDto TweetRequestDto) {
-		return null;
+	/**
+	 * Takes in a tweetRequestDto, send the credentials for validation and sends for
+	 * a tweet by id. Then sets up a new tweet, sets the found tweet as inReplyTo,
+	 * sets the validated user as author, saves to the database and returns a
+	 * tweetResponseDto.
+	 */
+	public TweetResponseDto createReply(Long tweetId, TweetRequestDto tweetRequestDto) {
+
+		User user = ValidateUser(tweetRequestDto.getCredentials());
+		Tweet tweet = getValidTweet(tweetId);
+
+		if (tweetRequestDto.getContent() == null) {
+			throw new BadRequestException("Tweet Content is required.");
+		}
+
+		Tweet newTweet = tweetMapper.requestDtoToEntity(tweetRequestDto);
+		newTweet.setAuthor(user);
+		newTweet.setInReplyTo(tweet);
+
+		// TODO Add parsing methods to find mentions and hashtags in tweet content.
+
+		return tweetMapper.entityToResponseDto(tweetRepository.saveAndFlush(newTweet));
 	}
 
 	public TweetResponseDto createRepost(Long tweetId, UserRequestDto UserRequestDto) {
