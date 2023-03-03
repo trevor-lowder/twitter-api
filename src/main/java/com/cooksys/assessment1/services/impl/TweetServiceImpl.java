@@ -134,9 +134,10 @@ public class TweetServiceImpl implements TweetService {
 		User user = ValidateUser(credentialsDto);
 		Tweet tweet = getValidTweet(tweetId);
 		
-		user.getLikedTweets().add(tweet);
-		userRepository.saveAndFlush(user);
-
+		if(!(tweet.getLikedBy().contains(user))) {
+			user.getLikedTweets().add(tweet);
+			userRepository.saveAndFlush(user);
+		}
 	}
 
 	public TweetResponseDto createReply(Long tweetId, TweetRequestDto TweetRequestDto) {
@@ -144,10 +145,6 @@ public class TweetServiceImpl implements TweetService {
 	}
 
 	public TweetResponseDto createRepost(Long tweetId, UserRequestDto UserRequestDto) {
-		return null;
-	}
-
-	public List<String> getTags(Long tweetId) {
 		return null;
 	}
 
