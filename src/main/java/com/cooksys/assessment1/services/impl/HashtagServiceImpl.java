@@ -9,6 +9,7 @@ import com.cooksys.assessment1.dtos.HashtagDto;
 import com.cooksys.assessment1.dtos.TweetResponseDto;
 import com.cooksys.assessment1.entities.Hashtag;
 import com.cooksys.assessment1.entities.Tweet;
+import com.cooksys.assessment1.exceptions.NotFoundException;
 import com.cooksys.assessment1.mappers.HashtagMapper;
 import com.cooksys.assessment1.mappers.TweetMapper;
 import com.cooksys.assessment1.repositories.HashtagRepository;
@@ -37,7 +38,7 @@ public class HashtagServiceImpl implements HashtagService {
 		Hashtag h = hashtagRepository.findByLabel(label);
 		
 		if(h.equals(null)) {
-			//error message
+			throw new NotFoundException("No tweet found by label '" + label + "'");
 		}
 		
 		

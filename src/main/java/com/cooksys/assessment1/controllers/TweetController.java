@@ -68,4 +68,7 @@ public class TweetController {
 		TweetResponseDto tweetResponseDto = tweetService.deleteTweet(id);
 		return tweetResponseDto;
 	}
+	
+	//@GetMapping("/{id}/tags")
+	//public 
 }
