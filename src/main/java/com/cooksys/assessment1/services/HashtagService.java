@@ -5,6 +5,8 @@ package com.cooksys.assessment1.services;
 import com.cooksys.assessment1.entities.Hashtag;
 
 public interface HashtagService {
+
+	List<HashtagDto> getHashtags();
 	
 	
 
