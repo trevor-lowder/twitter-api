@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.cooksys.assessment1.dtos.HashtagDto;
 import com.cooksys.assessment1.dtos.TweetContextDto;
 import com.cooksys.assessment1.dtos.TweetRequestDto;
 import com.cooksys.assessment1.dtos.TweetResponseDto;
@@ -13,9 +14,12 @@ import com.cooksys.assessment1.dtos.UserRequestDto;
 import com.cooksys.assessment1.dtos.UserResponseDto;
 import com.cooksys.assessment1.entities.Tweet;
 import com.cooksys.assessment1.entities.User;
+import com.cooksys.assessment1.exceptions.BadRequestException;
 import com.cooksys.assessment1.exceptions.NotFoundException;
 import com.cooksys.assessment1.repositories.TweetRepository;
+import com.cooksys.assessment1.repositories.UserRepository;
 import com.cooksys.assessment1.services.TweetService;
+import com.cooksys.assessment1.mappers.HashtagMapper;
 import com.cooksys.assessment1.mappers.TweetMapper;
 import com.cooksys.assessment1.mappers.UserMapper;
 
@@ -28,9 +32,28 @@ public class TweetServiceImpl implements TweetService {
     private final TweetRepository tweetRepository;
     private final TweetMapper tweetMapper;
     private final UserMapper userMapper;
+    private final HashtagMapper hashtagMapper;
+    private final UserRepository userRepository;
 
-    public TweetResponseDto createTweet(TweetRequestDto TweetRequestDto) {
-        return null;
+    public TweetResponseDto createTweet(TweetRequestDto tweetRequestDto) {
+    	
+    	if (tweetRequestDto.getCredentials() == null || tweetRequestDto.getCredentials().getUsername() == null || tweetRequestDto.getCredentials().getPassword() == null
+				|| tweetRequestDto.getContent() == null) {
+			throw new BadRequestException("Username, password and tweet content are required.");
+		}
+    	
+    	Optional<User> user = userRepository.findByCredentialsUsernameAndDeletedFalse(tweetRequestDto.getCredentials().getUsername());
+    	if (user.isEmpty()) {
+			throw new NotFoundException("No user found by username '" + tweetRequestDto.getCredentials().getUsername() + "'");
+		}
+    	
+    	Tweet tweet = tweetMapper.requestDtoToEntity(tweetRequestDto);
+    	tweet.setAuthor(user.get());
+    	
+    	//FIXME responseDto is returning a null username, all other fields are correct
+    	//TODO Add parsing methods to find mentions and hashtags in tweet content.
+    	
+        return tweetMapper.entityToResponseDto(tweetRepository.saveAndFlush(tweet));
     }
 
     public List<TweetResponseDto> getAllNonDeletedTweets() {
@@ -138,4 +161,16 @@ public class TweetServiceImpl implements TweetService {
         return userMapper.entitiesToDtos(mentionedUsers);
     }
 
+	@Override
+	public List<HashtagDto> getHashtagsFromTweetId(Long id) {
+		
+		Tweet t = tweetRepository.findById(id)
+				.orElseThrow(() -> new NotFoundException("Tweet not found with id: " + id));
+		
+		if (t.isDeleted()) {
+			throw new NotFoundException("Tweet with id " + id + " is deleted");
+		}
+		
+		return hashtagMapper.entitiesToDtos(t.getHashtags());
+	}
 }

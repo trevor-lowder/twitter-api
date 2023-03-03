@@ -30,4 +30,6 @@ public interface TweetService {
     List<TweetResponseDto> getReposts(Long tweetId);
 
     List<UserResponseDto> getMentions(Long tweetId);
+
+	List<HashtagDto> getHashtagsFromTweetId(Long id);
 }
