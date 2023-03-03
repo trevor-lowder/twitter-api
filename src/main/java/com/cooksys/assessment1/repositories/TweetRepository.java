@@ -11,4 +11,6 @@ public interface TweetRepository extends JpaRepository<Tweet, Long> {
 
     List<Tweet> findByInReplyToAndDeletedFalseOrderByPostedDesc(Tweet tweet);
 
+    List<Tweet> findByRepostOfAndDeletedFalseOrderByPostedDesc(Tweet tweet);
+
 }
