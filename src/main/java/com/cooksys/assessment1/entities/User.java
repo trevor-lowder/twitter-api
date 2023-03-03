@@ -43,7 +43,7 @@ public class User {
 	@CreationTimestamp
 	private Timestamp joined;
 
-	private Boolean deleted = false;
+	private boolean deleted = false;
 
 	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
 	private List<Tweet> tweets;
