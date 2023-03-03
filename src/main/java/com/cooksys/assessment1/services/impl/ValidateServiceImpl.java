@@ -4,7 +4,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.cooksys.assessment1.entities.Hashtag;
 import com.cooksys.assessment1.entities.User;
+import com.cooksys.assessment1.repositories.HashtagRepository;
 import com.cooksys.assessment1.repositories.UserRepository;
 import com.cooksys.assessment1.services.ValidateService;
 
@@ -23,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class ValidateServiceImpl implements ValidateService{
 	
 	private final UserRepository userRepository;
+	private final HashtagRepository hashtagRepository;
 	
 	/**
 	 * 
@@ -53,6 +56,19 @@ public class ValidateServiceImpl implements ValidateService{
 	@Override
 	public Boolean ifUserNameAvailable(String userName) {
 		return !userExists(userName);
+	}
+
+	@Override
+	public Boolean ifTagExists(String label) {
+		Optional<Hashtag> h = hashtagRepository.findByLabel(label);
+		
+		
+
+		
+		if(h.isEmpty()) {
+			return false;
+		}
+		return true;
 	}
 
 }

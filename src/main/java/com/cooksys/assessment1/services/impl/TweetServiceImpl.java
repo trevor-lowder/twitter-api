@@ -21,6 +21,8 @@ import com.cooksys.assessment1.mappers.UserMapper;
 
 import lombok.RequiredArgsConstructor;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @RequiredArgsConstructor
 public class TweetServiceImpl implements TweetService {
