@@ -101,11 +101,7 @@ public class TweetServiceImpl implements TweetService {
 	}
 
 	public TweetResponseDto getTweetById(Long id) {
-		Tweet tweet = tweetRepository.findById(id)
-				.orElseThrow(() -> new NotFoundException("Tweet not found with id: " + id));
-		if (tweet.isDeleted()) {
-			throw new NotFoundException("Tweet with id " + id + " is deleted");
-		}
+		Tweet tweet = getValidTweet(id);
 		return tweetMapper.entityToResponseDto(tweet);
 	}
 
@@ -161,12 +157,8 @@ public class TweetServiceImpl implements TweetService {
 		return null;
 	}
 
-	public List<UserResponseDto> getLikes(Long tweetId) {
-		Tweet tweet = tweetRepository.findById(tweetId)
-				.orElseThrow(() -> new NotFoundException("Tweet not found with id: " + tweetId));
-		if (tweet.isDeleted()) {
-			throw new NotFoundException("Tweet with id " + tweetId + " is deleted");
-		}
+	public List<UserResponseDto> getLikes(Long id) {
+		Tweet tweet = getValidTweet(id);
 		List<User> likedBy = tweet.getLikedBy();
 		List<UserResponseDto> userResponseDtos = new ArrayList<>();
 		for (User user : likedBy) {
@@ -181,22 +173,14 @@ public class TweetServiceImpl implements TweetService {
 		return null;
 	}
 
-	public List<TweetResponseDto> getReplies(Long tweetId) {
-		Tweet tweet = tweetRepository.findById(tweetId)
-				.orElseThrow(() -> new NotFoundException("Tweet not found with id: " + tweetId));
-		if (tweet.isDeleted()) {
-			throw new NotFoundException("Tweet with id " + tweetId + " is deleted");
-		}
+	public List<TweetResponseDto> getReplies(Long id) {
+		Tweet tweet = getValidTweet(id);
 		List<Tweet> replies = tweetRepository.findByInReplyToAndDeletedFalseOrderByPostedDesc(tweet);
 		return tweetMapper.entitiesToResponseDtos(replies);
 	}
 
-	public List<TweetResponseDto> getReposts(Long tweetId) {
-		Tweet tweet = tweetRepository.findById(tweetId)
-				.orElseThrow(() -> new NotFoundException("Tweet not found with id: " + tweetId));
-		if (tweet.isDeleted()) {
-			throw new NotFoundException("Tweet with id " + tweetId + " is deleted");
-		}
+	public List<TweetResponseDto> getReposts(Long id) {
+		Tweet tweet = getValidTweet(id);
 		List<Tweet> reposts = tweetRepository.findByRepostOfAndDeletedFalseOrderByPostedDesc(tweet);
 		List<TweetResponseDto> repostResponseDtos = new ArrayList<>();
 		for (Tweet repost : reposts) {
@@ -207,12 +191,8 @@ public class TweetServiceImpl implements TweetService {
 		return repostResponseDtos;
 	}
 
-	public List<UserResponseDto> getMentions(Long tweetId) {
-		Tweet tweet = tweetRepository.findById(tweetId)
-				.orElseThrow(() -> new NotFoundException("Tweet not found with id: " + tweetId));
-		if (tweet.isDeleted()) {
-			throw new NotFoundException("Tweet with id " + tweetId + " is deleted");
-		}
+	public List<UserResponseDto> getMentions(Long id) {
+		Tweet tweet = getValidTweet(id);
 		List<User> mentionedUsers = new ArrayList<>();
 		for (User user : tweet.getMentionedBy()) {
 			if (!user.isDeleted()) {
@@ -225,13 +205,10 @@ public class TweetServiceImpl implements TweetService {
 	@Override
 	public List<HashtagDto> getHashtagsFromTweetId(Long id) {
 
-		Tweet t = tweetRepository.findById(id)
-				.orElseThrow(() -> new NotFoundException("Tweet not found with id: " + id));
-
-		if (t.isDeleted()) {
+		Tweet tweet = getValidTweet(id);
 			throw new NotFoundException("Tweet with id " + id + " is deleted");
 		}
 
-		return hashtagMapper.entitiesToDtos(t.getHashtags());
+		return hashtagMapper.entitiesToDtos(tweet.getHashtags());
 	}
 }
