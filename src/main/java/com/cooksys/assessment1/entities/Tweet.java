@@ -39,7 +39,7 @@ public class Tweet {
 	private Timestamp posted;
 
 	@Column(name = "deleted")
-	private boolean deleted;
+	private boolean deleted = false;
 
 	@Column(name = "content")
 	private String content;

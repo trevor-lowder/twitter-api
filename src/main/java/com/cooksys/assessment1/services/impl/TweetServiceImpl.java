@@ -21,8 +21,6 @@ import com.cooksys.assessment1.mappers.UserMapper;
 
 import lombok.RequiredArgsConstructor;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
 @RequiredArgsConstructor
 public class TweetServiceImpl implements TweetService {
@@ -110,10 +108,34 @@ public class TweetServiceImpl implements TweetService {
     }
 
     public List<TweetResponseDto> getReposts(Long tweetId) {
-        return null;
+        Tweet tweet = tweetRepository.findById(tweetId)
+                .orElseThrow(() -> new NotFoundException("Tweet not found with id: " + tweetId));
+        if (tweet.isDeleted()) {
+            throw new NotFoundException("Tweet with id " + tweetId + " is deleted");
+        }
+        List<Tweet> reposts = tweetRepository.findByRepostOfAndDeletedFalseOrderByPostedDesc(tweet);
+        List<TweetResponseDto> repostResponseDtos = new ArrayList<>();
+        for (Tweet repost : reposts) {
+            if (!repost.isDeleted()) {
+                repostResponseDtos.add(tweetMapper.entityToResponseDto(repost));
+            }
+        }
+        return repostResponseDtos;
     }
 
     public List<UserResponseDto> getMentions(Long tweetId) {
-        return null;
+        Tweet tweet = tweetRepository.findById(tweetId)
+                .orElseThrow(() -> new NotFoundException("Tweet not found with id: " + tweetId));
+        if (tweet.isDeleted()) {
+            throw new NotFoundException("Tweet with id " + tweetId + " is deleted");
+        }
+        List<User> mentionedUsers = new ArrayList<>();
+        for (User user : tweet.getMentionedBy()) {
+            if (!user.isDeleted()) {
+                mentionedUsers.add(user);
+            }
+        }
+        return userMapper.entitiesToDtos(mentionedUsers);
     }
+
 }

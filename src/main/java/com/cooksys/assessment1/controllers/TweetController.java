@@ -56,6 +56,11 @@ public class TweetController {
 		return tweetService.getReplies(id);
 	}
 
+	@GetMapping("/tweets/{id}/mentions")
+	public List<UserResponseDto> getMentions(@PathVariable Long id) {
+		return tweetService.getMentions(id);
+	}
+
 	@PatchMapping("/{id}")
 	public TweetResponseDto updateTweet(@PathVariable Long id, @RequestBody TweetRequestDto tweetRequestDto) {
 		// TODO: Implement this method
