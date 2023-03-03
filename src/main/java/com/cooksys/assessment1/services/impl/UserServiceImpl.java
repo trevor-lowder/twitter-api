@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
 		Optional<User> searchedUser = userRepository.findByCredentialsUsername(user.getCredentials().getUsername());
 		if (!searchedUser.isEmpty()) {
 			User foundUser = searchedUser.get();
-			if (foundUser.getDeleted() == false) {
+			if (foundUser.isDeleted() == false) {
 				throw new BadRequestException("The given username is already in use.");
 			} else if (foundUser.getCredentials().getPassword().equals(user.getCredentials().getPassword())) {
 				foundUser.setDeleted(false);
@@ -219,7 +219,7 @@ public class UserServiceImpl implements UserService {
 		User user = findNotDeletedUser(userName);
 		List<UserResponseDto> followerDtos = new ArrayList<>();
 		for (User follower : user.getFollowers()) {
-			if (follower.getDeleted() == false) {
+			if (follower.isDeleted() == false) {
 				followerDtos.add(userMapper.entityToDto(follower));
 			}
 		}
@@ -238,7 +238,7 @@ public class UserServiceImpl implements UserService {
 		User user = findNotDeletedUser(userName);
 		List<UserResponseDto> followingDtos = new ArrayList<>();
 		for (User following : user.getFollowing()) {
-			if (following.getDeleted() == false) {
+			if (following.isDeleted() == false) {
 				followingDtos.add(userMapper.entityToDto(following));
 			}
 		}
@@ -317,11 +317,11 @@ public class UserServiceImpl implements UserService {
 		for (Tweet t : user.getMentionedTweets()) {
 			if (!t.isDeleted()) {
 				mentions.add(t);
-			}			
+			}
 		}
 		// mentions.sort(Comparator.comparing(Tweet::getPosted));
 		Collections.sort(mentions, Collections.reverseOrder(Comparator.comparing(Tweet::getPosted)));
-		
+
 		return tweetMapper.entitiesToResponseDtos(mentions);
 	}
 
@@ -339,11 +339,11 @@ public class UserServiceImpl implements UserService {
 		for (Tweet t : user.getTweets()) {
 			if (!t.isDeleted()) {
 				tweets.add(t);
-			}			
+			}
 		}
 		// mentions.sort(Comparator.comparing(Tweet::getPosted));
 		Collections.sort(tweets, Collections.reverseOrder(Comparator.comparing(Tweet::getPosted)));
-		
+
 		return tweetMapper.entitiesToResponseDtos(tweets);
 	}
 
@@ -361,18 +361,18 @@ public class UserServiceImpl implements UserService {
 		for (Tweet t : user.getTweets()) {
 			if (!t.isDeleted()) {
 				tweets.add(t);
-			}			
+			}
 		}
-		for(User u : user.getFollowing()) {
-			for(Tweet t : u.getTweets()) {
+		for (User u : user.getFollowing()) {
+			for (Tweet t : u.getTweets()) {
 				if (!t.isDeleted()) {
 					tweets.add(t);
 				}
 			}
-		}		
+		}
 		// mentions.sort(Comparator.comparing(Tweet::getPosted));
 		Collections.sort(tweets, Collections.reverseOrder(Comparator.comparing(Tweet::getPosted)));
-		
+
 		return tweetMapper.entitiesToResponseDtos(tweets);
 	}
 

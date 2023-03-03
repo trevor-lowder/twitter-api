@@ -5,9 +5,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cooksys.assessment1.services.HashtagService;
 import com.cooksys.assessment1.services.ValidateService;
-
-// import com.cooksys.assessment1.services.ValidateService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class ValidateController {
 
 	private final ValidateService validateService;
+	private final HashtagService hashtagService;
 
 	/**
 	 * 
@@ -47,5 +47,12 @@ public class ValidateController {
 	public Boolean ifUserNameAvailable(@PathVariable String userName) {
 		return validateService.ifUserNameAvailable(userName);
 	}
+	
+	
+//	@GetMapping("/tag/exists/{label}")
+//	public Boolean ifTagExists(@PathVariable String label) {
+//		System.out.println(label);
+//		return validateService.ifTagExists(label);
+//	}
 
 }

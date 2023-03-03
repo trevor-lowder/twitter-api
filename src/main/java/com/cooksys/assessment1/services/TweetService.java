@@ -19,15 +19,15 @@ public interface TweetService {
 
     TweetResponseDto createRepost(Long tweetId, UserRequestDto UserRequestDto);
 
-    List<String> getTagsForTweet(Long tweetId);
+    List<String> getTags(Long tweetId);
 
-    List<UserResponseDto> getUsersWhoLikedTweet(Long tweetId);
+    List<UserResponseDto> getLikes(Long tweetId);
 
-    TweetContextDto getTweetContext(Long tweetId);
+    TweetContextDto getContext(Long tweetId);
 
-    List<TweetResponseDto> getDirectReplies(Long tweetId);
+    List<TweetResponseDto> getReplies(Long tweetId);
 
-    List<TweetResponseDto> getDirectReposts(Long tweetId);
+    List<TweetResponseDto> getReposts(Long tweetId);
 
-    List<UserResponseDto> getUsersMentionedInTweet(Long tweetId);
+    List<UserResponseDto> getMentions(Long tweetId);
 }
