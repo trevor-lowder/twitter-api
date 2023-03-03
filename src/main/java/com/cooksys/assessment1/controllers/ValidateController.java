@@ -49,10 +49,10 @@ public class ValidateController {
 	}
 	
 	
-//	@GetMapping("/tag/exists/{label}")
-//	public Boolean ifTagExists(@PathVariable String label) {
-//		System.out.println(label);
-//		return validateService.ifTagExists(label);
-//	}
+	@GetMapping("/tag/exists/{label}")
+	public Boolean ifTagExists(@PathVariable String label) {
+		System.out.println(label);
+		return validateService.ifTagExists(label);
+	}
 
 }
