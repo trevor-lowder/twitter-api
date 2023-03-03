@@ -153,8 +153,14 @@ public class TweetServiceImpl implements TweetService {
 		return tweetMapper.entityToResponseDto(tweetRepository.saveAndFlush(newTweet));
 	}
 
-	public TweetResponseDto createRepost(Long tweetId, UserRequestDto UserRequestDto) {
-		return null;
+	public TweetResponseDto createRepost(Long tweetId, UserRequestDto userRequestDto) {
+		User user = ValidateUser(userRequestDto.getCredentials());
+        Tweet tweet = getValidTweet(tweetId);
+        Tweet repost = new Tweet();
+        repost.setAuthor(user);
+        repost.setRepostOf(tweet);
+        repost = tweetRepository.save(repost);
+        return tweetMapper.entityToResponseDto(repost);
 	}
 
 	public List<UserResponseDto> getLikes(Long id) {
@@ -206,8 +212,6 @@ public class TweetServiceImpl implements TweetService {
 	public List<HashtagDto> getHashtagsFromTweetId(Long id) {
 
 		Tweet tweet = getValidTweet(id);
-			throw new NotFoundException("Tweet with id " + id + " is deleted");
-		}
 
 		return hashtagMapper.entitiesToDtos(tweet.getHashtags());
 	}
