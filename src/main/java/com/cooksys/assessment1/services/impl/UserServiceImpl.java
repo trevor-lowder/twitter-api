@@ -264,19 +264,9 @@ public class UserServiceImpl implements UserService {
 			if (user.getFollowing().contains(userToFollow)) {
 				throw new NotFoundException("The supplied user is already following this user.");
 			} else {
-
-				// FIXME Does not add any entries in the database
-				// TOOD Remove logs
-				List<User> following = user.getFollowing();
-
-				// System.out.println(following.size());
-				following.add(userToFollow);
-
-				// System.out.println(following.size());
-				user.setFollowing(List.copyOf(following));
-
-				// System.out.println();
-				userRepository.saveAllAndFlush(user.getFollowing());
+				
+				userToFollow.getFollowers().add(user);
+				userRepository.saveAndFlush(userToFollow);
 			}
 		} else {
 			throw new NotAuthorizedException(
@@ -302,9 +292,8 @@ public class UserServiceImpl implements UserService {
 		if (credentialsDto.getPassword().equals(user.getCredentials().getPassword())) {
 			if (user.getFollowing().contains(userToFollow)) {
 
-				// FIXME Does not add any entries in the database
-				user.getFollowing().remove(userToFollow);
-				userRepository.saveAndFlush(user);
+				userToFollow.getFollowers().remove(user);
+				userRepository.saveAndFlush(userToFollow);
 			} else {
 				throw new NotFoundException("The supplied user is not following this user.");
 			}
