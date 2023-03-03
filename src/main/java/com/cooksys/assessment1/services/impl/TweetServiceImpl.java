@@ -109,19 +109,12 @@ public class TweetServiceImpl implements TweetService {
 		return tweetMapper.entityToResponseDto(tweet);
 	}
 
-	public TweetResponseDto deleteTweet(Long id) {
-		Optional<Tweet> optionalTweet = tweetRepository.findById(id);
-		if (optionalTweet.isEmpty()) {
-			throw new NotFoundException("Tweet not found with ID: " + id);
-		}
-		Tweet tweet = optionalTweet.get();
-		if (tweet.isDeleted()) {
-			throw new NotFoundException("Tweet with ID: " + id + " has already been deleted");
-		}
-		TweetResponseDto deletedTweet = tweetMapper.entityToResponseDto(tweet);
+	public TweetResponseDto deleteTweet(Long id, CredentialsDto credentialsDto) {
+		User user = ValidateUser(credentialsDto);
+		Tweet tweet = getValidTweet(id);
 		tweet.setDeleted(true);
-		tweetRepository.save(tweet);
-		return deletedTweet;
+		
+		return tweetMapper.entityToResponseDto(tweetRepository.saveAndFlush(tweet));
 	}
 
 	/**

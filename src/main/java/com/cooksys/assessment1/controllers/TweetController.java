@@ -61,9 +61,9 @@ public class TweetController {
 	}
 
 	@DeleteMapping("/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public TweetResponseDto deleteTweet(@PathVariable Long id) {
-		TweetResponseDto tweetResponseDto = tweetService.deleteTweet(id);
+	@ResponseStatus(HttpStatus.OK)
+	public TweetResponseDto deleteTweet(@PathVariable Long id, @RequestBody CredentialsDto credentialsDto) {
+		TweetResponseDto tweetResponseDto = tweetService.deleteTweet(id, credentialsDto);
 		return tweetResponseDto;
 	}
 
