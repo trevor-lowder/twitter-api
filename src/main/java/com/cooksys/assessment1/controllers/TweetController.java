@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cooksys.assessment1.dtos.TweetRequestDto;
 import com.cooksys.assessment1.dtos.TweetResponseDto;
+import com.cooksys.assessment1.dtos.UserResponseDto;
 
 import com.cooksys.assessment1.services.TweetService;
 
@@ -35,15 +36,24 @@ public class TweetController {
 	}
 
 	@GetMapping
-	public List<TweetResponseDto> getAllTweets() {
-		// TODO: Implement this method
-		return null;
+	public List<TweetResponseDto> getAllNonDeletedTweets() {
+		return tweetService.getAllNonDeletedTweets();
 	}
 
 	@GetMapping("/{id}")
 	public TweetResponseDto getTweetById(@PathVariable Long id) {
-		// TODO: Implement this method
-		return null;
+		TweetResponseDto tweetResponseDto = tweetService.getTweetById(id);
+		return tweetResponseDto;
+	}
+
+	@GetMapping("/{id}/likes")
+	public List<UserResponseDto> getLikes(@PathVariable("id") Long tweetId) {
+		return tweetService.getLikes(tweetId);
+	}
+
+	@GetMapping("/{id}/replies")
+	public List<TweetResponseDto> getReplies(@PathVariable Long id) {
+		return tweetService.getReplies(id);
 	}
 
 	@PatchMapping("/{id}")
@@ -54,7 +64,8 @@ public class TweetController {
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteTweet(@PathVariable Long id) {
-		// TODO: Implement this method
+	public TweetResponseDto deleteTweet(@PathVariable Long id) {
+		TweetResponseDto tweetResponseDto = tweetService.deleteTweet(id);
+		return tweetResponseDto;
 	}
 }
