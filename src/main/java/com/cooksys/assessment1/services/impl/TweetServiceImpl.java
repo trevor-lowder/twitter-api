@@ -62,15 +62,15 @@ public class TweetServiceImpl implements TweetService {
 					"Password does not match for user: '" + user.get().getCredentials().getUsername() + "'");
 		}
 	}
-  
-  private Tweet getValidTweet(Long tweetId) throws NotFoundException {
-        Tweet tweet = tweetRepository.findById(tweetId)
-                .orElseThrow(() -> new NotFoundException("Tweet not found with id: " + tweetId));
-        if (tweet.isDeleted()) {
-            throw new NotFoundException("Tweet with id " + tweetId + " is deleted");
-        }
-        return tweet;
-    }
+
+	private Tweet getValidTweet(Long tweetId) throws NotFoundException {
+		Tweet tweet = tweetRepository.findById(tweetId)
+				.orElseThrow(() -> new NotFoundException("Tweet not found with id: " + tweetId));
+		if (tweet.isDeleted()) {
+			throw new NotFoundException("Tweet with id " + tweetId + " is deleted");
+		}
+		return tweet;
+	}
 
 	/**
 	 * Takes in a tweetRequestDto, sends the credentials to a private method for
@@ -109,42 +109,55 @@ public class TweetServiceImpl implements TweetService {
 		return tweetMapper.entityToResponseDto(tweet);
 	}
 
-	public TweetResponseDto deleteTweet(Long id) {
-		Optional<Tweet> optionalTweet = tweetRepository.findById(id);
-		if (optionalTweet.isEmpty()) {
-			throw new NotFoundException("Tweet not found with ID: " + id);
-		}
-		Tweet tweet = optionalTweet.get();
-		if (tweet.isDeleted()) {
-			throw new NotFoundException("Tweet with ID: " + id + " has already been deleted");
-		}
-		TweetResponseDto deletedTweet = tweetMapper.entityToResponseDto(tweet);
+	public TweetResponseDto deleteTweet(Long id, CredentialsDto credentialsDto) {
+		User user = ValidateUser(credentialsDto);
+		Tweet tweet = getValidTweet(id);
 		tweet.setDeleted(true);
-		tweetRepository.save(tweet);
-		return deletedTweet;
+		
+		return tweetMapper.entityToResponseDto(tweetRepository.saveAndFlush(tweet));
 	}
 
 	/**
-	 * Takes in a credentialsDto and sends it for validation.
-	 * Then finds tweet by the passed in id and if found, adds a like
-	 * relationship between the tweet and the user.
+	 * Takes in a credentialsDto and sends it for validation. Then finds tweet by
+	 * the passed in id and if found, adds a like relationship between the tweet and
+	 * the user.
 	 */
 	public void createLike(Long tweetId, CredentialsDto credentialsDto) {
-		
+
 		User user = ValidateUser(credentialsDto);
-		
-		
+		Tweet tweet = getValidTweet(tweetId);
+
+		if (!(tweet.getLikedBy().contains(user))) {
+			user.getLikedTweets().add(tweet);
+			userRepository.saveAndFlush(user);
+		}
 	}
 
-	public TweetResponseDto createReply(Long tweetId, TweetRequestDto TweetRequestDto) {
-		return null;
+	/**
+	 * Takes in a tweetRequestDto, send the credentials for validation and sends for
+	 * a tweet by id. Then sets up a new tweet, sets the found tweet as inReplyTo,
+	 * sets the validated user as author, saves to the database and returns a
+	 * tweetResponseDto.
+	 */
+	public TweetResponseDto createReply(Long tweetId, TweetRequestDto tweetRequestDto) {
+
+		User user = ValidateUser(tweetRequestDto.getCredentials());
+		Tweet tweet = getValidTweet(tweetId);
+
+		if (tweetRequestDto.getContent() == null) {
+			throw new BadRequestException("Tweet Content is required.");
+		}
+
+		Tweet newTweet = tweetMapper.requestDtoToEntity(tweetRequestDto);
+		newTweet.setAuthor(user);
+		newTweet.setInReplyTo(tweet);
+
+		// TODO Add parsing methods to find mentions and hashtags in tweet content.
+
+		return tweetMapper.entityToResponseDto(tweetRepository.saveAndFlush(newTweet));
 	}
 
 	public TweetResponseDto createRepost(Long tweetId, UserRequestDto UserRequestDto) {
-		return null;
-	}
-
-	public List<String> getTags(Long tweetId) {
 		return null;
 	}
 
