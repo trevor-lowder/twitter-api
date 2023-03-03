@@ -245,8 +245,8 @@ public class TweetServiceImpl implements TweetService {
 		return tweetMapper.entityToResponseDto(tweetRepository.saveAndFlush(newTweet));
 	}
 
-	public TweetResponseDto createRepost(Long tweetId, UserRequestDto userRequestDto) {
-		User user = ValidateUser(userRequestDto.getCredentials());
+	public TweetResponseDto createRepost(Long tweetId, CredentialsDto credentialsDto) {
+		User user = ValidateUser(credentialsDto);
 		Tweet tweet = getValidTweet(tweetId);
 		Tweet repost = new Tweet();
 		repost.setAuthor(user);
@@ -311,16 +311,10 @@ public class TweetServiceImpl implements TweetService {
 	}
 
 	public List<TweetResponseDto> getReposts(Long id) {
-		Tweet tweet = getValidTweet(id);
-		List<Tweet> reposts = tweetRepository.findByRepostOfAndDeletedFalseOrderByPostedDesc(tweet);
-		List<TweetResponseDto> repostResponseDtos = new ArrayList<>();
-		for (Tweet repost : reposts) {
-			if (!repost.isDeleted()) {
-				repostResponseDtos.add(tweetMapper.entityToResponseDto(repost));
-			}
-		}
-		return repostResponseDtos;
-	}
+        Tweet tweet = getValidTweet(id);
+        List<Tweet> reposts = tweetRepository.findByRepostOfAndDeletedFalseOrderByPostedDesc(tweet);
+        return tweetMapper.entitiesToResponseDtos(reposts);
+ }
 
 	public List<UserResponseDto> getMentions(Long id) {
 		Tweet tweet = getValidTweet(id);
