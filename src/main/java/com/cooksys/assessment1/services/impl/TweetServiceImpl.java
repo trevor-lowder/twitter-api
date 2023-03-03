@@ -115,7 +115,16 @@ public class TweetServiceImpl implements TweetService {
 		return deletedTweet;
 	}
 
-	public void createLike(Long tweetId, UserRequestDto UserRequestDto) {
+	/**
+	 * Takes in a credentialsDto and sends it for validation.
+	 * Then finds tweet by the passed in id and if found, adds a like
+	 * relationship between the tweet and the user.
+	 */
+	public void createLike(Long tweetId, CredentialsDto credentialsDto) {
+		
+		User user = ValidateUser(credentialsDto);
+		
+		
 	}
 
 	public TweetResponseDto createReply(Long tweetId, TweetRequestDto TweetRequestDto) {
