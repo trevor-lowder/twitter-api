@@ -17,7 +17,6 @@ import com.cooksys.assessment1.dtos.HashtagDto;
 import com.cooksys.assessment1.dtos.TweetRequestDto;
 import com.cooksys.assessment1.dtos.TweetResponseDto;
 import com.cooksys.assessment1.dtos.UserResponseDto;
-
 import com.cooksys.assessment1.services.TweetService;
 
 import lombok.RequiredArgsConstructor;
@@ -32,8 +31,7 @@ public class TweetController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public TweetResponseDto createTweet(@RequestBody TweetRequestDto tweetRequestDto) {
-		// TODO: Implement this method
-		return null;
+		return tweetService.createTweet(tweetRequestDto);
 	}
 
 	@GetMapping
