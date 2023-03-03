@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.cooksys.assessment1.dtos.HashtagDto;
 import com.cooksys.assessment1.dtos.TweetContextDto;
 import com.cooksys.assessment1.dtos.TweetRequestDto;
 import com.cooksys.assessment1.dtos.TweetResponseDto;
@@ -18,6 +19,7 @@ import com.cooksys.assessment1.exceptions.NotFoundException;
 import com.cooksys.assessment1.repositories.TweetRepository;
 import com.cooksys.assessment1.repositories.UserRepository;
 import com.cooksys.assessment1.services.TweetService;
+import com.cooksys.assessment1.mappers.HashtagMapper;
 import com.cooksys.assessment1.mappers.TweetMapper;
 import com.cooksys.assessment1.mappers.UserMapper;
 
@@ -32,6 +34,7 @@ public class TweetServiceImpl implements TweetService {
     private final TweetRepository tweetRepository;
     private final TweetMapper tweetMapper;
     private final UserMapper userMapper;
+    private final HashtagMapper hashtagMapper;
     private final UserRepository userRepository;
 
     public TweetResponseDto createTweet(TweetRequestDto tweetRequestDto) {
@@ -136,4 +139,17 @@ public class TweetServiceImpl implements TweetService {
     public List<UserResponseDto> getMentions(Long tweetId) {
         return null;
     }
+
+	@Override
+	public List<HashtagDto> getHashtagsFromTweetId(Long id) {
+		
+		Tweet t = tweetRepository.findById(id)
+				.orElseThrow(() -> new NotFoundException("Tweet not found with id: " + id));
+		
+		if (t.isDeleted()) {
+			throw new NotFoundException("Tweet with id " + id + " is deleted");
+		}
+		
+		return hashtagMapper.entitiesToDtos(t.getHashtags());
+	}
 }

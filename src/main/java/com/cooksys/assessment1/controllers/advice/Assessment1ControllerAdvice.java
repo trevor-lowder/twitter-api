@@ -14,7 +14,6 @@ import com.cooksys.assessment1.exceptions.NotAuthorizedException;
 import com.cooksys.assessment1.exceptions.NotFoundException;
 
 @ControllerAdvice(basePackages = { "com.cooksys.assessment1.controllers" })
-@ResponseBody
 public class Assessment1ControllerAdvice {
 
 	@ExceptionHandler(BadRequestException.class)
