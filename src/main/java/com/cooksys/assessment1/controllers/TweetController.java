@@ -60,12 +60,6 @@ public class TweetController {
 		return tweetService.getMentions(id);
 	}
 
-	@PatchMapping("/{id}")
-	public TweetResponseDto updateTweet(@PathVariable Long id, @RequestBody TweetRequestDto tweetRequestDto) {
-		// TODO: Implement this method
-		return null;
-	}
-
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public TweetResponseDto deleteTweet(@PathVariable Long id) {
