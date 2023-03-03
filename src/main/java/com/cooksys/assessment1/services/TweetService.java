@@ -24,7 +24,7 @@ public interface TweetService {
 
 	TweetResponseDto createReply(Long tweetId, TweetRequestDto tweetRequestDto);
 
-	TweetResponseDto createRepost(Long tweetId, UserRequestDto userRequestDto);
+	TweetResponseDto createRepost(Long id, CredentialsDto credentialsDto);
 
 	List<UserResponseDto> getLikes(Long tweetId);
 
@@ -32,7 +32,7 @@ public interface TweetService {
 
 	List<TweetResponseDto> getReplies(Long tweetId);
 
-	List<TweetResponseDto> getReposts(Long tweetId);
+	List<TweetResponseDto> getReposts(Long id);
 
 	List<UserResponseDto> getMentions(Long tweetId);
 
