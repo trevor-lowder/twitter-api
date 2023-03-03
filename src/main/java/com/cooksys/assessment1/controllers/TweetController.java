@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cooksys.assessment1.dtos.CredentialsDto;
 import com.cooksys.assessment1.dtos.HashtagDto;
 import com.cooksys.assessment1.dtos.TweetRequestDto;
 import com.cooksys.assessment1.dtos.TweetResponseDto;
@@ -60,22 +60,20 @@ public class TweetController {
 		return tweetService.getMentions(id);
 	}
 
-	@PatchMapping("/{id}")
-	public TweetResponseDto updateTweet(@PathVariable Long id, @RequestBody TweetRequestDto tweetRequestDto) {
-		// TODO: Implement this method
-		return null;
-	}
-
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public TweetResponseDto deleteTweet(@PathVariable Long id) {
 		TweetResponseDto tweetResponseDto = tweetService.deleteTweet(id);
 		return tweetResponseDto;
 	}
-	
+
 	@GetMapping("/{id}/tags")
 	public List<HashtagDto> getHashtagsFromTweetId(@PathVariable Long id) {
-		return tweetService.getHashtagsFromTweetId(id);
-		
+		return tweetService.getHashtagsFromTweetId(id);		
+	}
+	
+	@PostMapping("/{id}/like")
+	public void likeTweet (@RequestBody CredentialsDto credentialsDto, @PathVariable Long tweetId) {
+		tweetService.createLike(tweetId, credentialsDto);
 	}
 }

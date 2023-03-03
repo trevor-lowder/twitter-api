@@ -13,13 +13,11 @@ public interface TweetService {
 
     TweetResponseDto deleteTweet(Long id);
 
-    void createLike(Long tweetId, UserRequestDto UserRequestDto);
+    void createLike(Long tweetId, CredentialsDto credentialsDto);
 
     TweetResponseDto createReply(Long tweetId, TweetRequestDto TweetRequestDto);
 
     TweetResponseDto createRepost(Long tweetId, UserRequestDto UserRequestDto);
-
-    List<String> getTags(Long tweetId);
 
     List<UserResponseDto> getLikes(Long tweetId);
 
