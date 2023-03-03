@@ -62,6 +62,15 @@ public class TweetServiceImpl implements TweetService {
 					"Password does not match for user: '" + user.get().getCredentials().getUsername() + "'");
 		}
 	}
+  
+  private Tweet getValidTweet(Long tweetId) throws NotFoundException {
+        Tweet tweet = tweetRepository.findById(tweetId)
+                .orElseThrow(() -> new NotFoundException("Tweet not found with id: " + tweetId));
+        if (tweet.isDeleted()) {
+            throw new NotFoundException("Tweet with id " + tweetId + " is deleted");
+        }
+        return tweet;
+    }
 
 	/**
 	 * Takes in a tweetRequestDto, sends the credentials to a private method for
