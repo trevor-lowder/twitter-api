@@ -62,15 +62,15 @@ public class TweetServiceImpl implements TweetService {
 					"Password does not match for user: '" + user.get().getCredentials().getUsername() + "'");
 		}
 	}
-  
-  private Tweet getValidTweet(Long tweetId) throws NotFoundException {
-        Tweet tweet = tweetRepository.findById(tweetId)
-                .orElseThrow(() -> new NotFoundException("Tweet not found with id: " + tweetId));
-        if (tweet.isDeleted()) {
-            throw new NotFoundException("Tweet with id " + tweetId + " is deleted");
-        }
-        return tweet;
-    }
+
+	private Tweet getValidTweet(Long tweetId) throws NotFoundException {
+		Tweet tweet = tweetRepository.findById(tweetId)
+				.orElseThrow(() -> new NotFoundException("Tweet not found with id: " + tweetId));
+		if (tweet.isDeleted()) {
+			throw new NotFoundException("Tweet with id " + tweetId + " is deleted");
+		}
+		return tweet;
+	}
 
 	/**
 	 * Takes in a tweetRequestDto, sends the credentials to a private method for
@@ -125,15 +125,18 @@ public class TweetServiceImpl implements TweetService {
 	}
 
 	/**
-	 * Takes in a credentialsDto and sends it for validation.
-	 * Then finds tweet by the passed in id and if found, adds a like
-	 * relationship between the tweet and the user.
+	 * Takes in a credentialsDto and sends it for validation. Then finds tweet by
+	 * the passed in id and if found, adds a like relationship between the tweet and
+	 * the user.
 	 */
 	public void createLike(Long tweetId, CredentialsDto credentialsDto) {
-		
+
 		User user = ValidateUser(credentialsDto);
+		Tweet tweet = getValidTweet(tweetId);
 		
-		
+		user.getLikedTweets().add(tweet);
+		userRepository.saveAndFlush(user);
+
 	}
 
 	public TweetResponseDto createReply(Long tweetId, TweetRequestDto TweetRequestDto) {
