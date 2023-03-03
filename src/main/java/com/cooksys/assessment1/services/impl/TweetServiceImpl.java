@@ -2,6 +2,7 @@ package com.cooksys.assessment1.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -176,7 +177,40 @@ public class TweetServiceImpl implements TweetService {
     }
 
     public TweetContextDto getContext(Long tweetId) {
-        return null;
+        Tweet targetTweet = getValidTweet(tweetId);
+        List<Tweet> beforeList = new ArrayList<>();
+        List<Tweet> afterList = new ArrayList<>();
+
+        // Traverse up the reply chain and add tweets to the beforeList
+        Stack<Tweet> beforeStack = new Stack<>();
+        beforeStack.push(targetTweet);
+        Tweet parentTweet = targetTweet.getInReplyTo();
+        while (parentTweet != null && !parentTweet.isDeleted()) {
+            beforeStack.push(parentTweet);
+            parentTweet = parentTweet.getInReplyTo();
+        }
+        while (!beforeStack.isEmpty()) {
+            beforeList.add(beforeStack.pop());
+        }
+
+        // Traverse down the reply chain and add tweets to the afterList
+        Stack<Tweet> afterStack = new Stack<>();
+        for (Tweet reply : targetTweet.getReplies()) {
+            if (!reply.isDeleted()) {
+                afterStack.push(reply);
+                while (!afterStack.isEmpty()) {
+                    Tweet currReply = afterStack.pop();
+                    afterList.add(currReply);
+                    for (Tweet nestedReply : currReply.getReplies()) {
+                        if (!nestedReply.isDeleted()) {
+                            afterStack.push(nestedReply);
+                        }
+                    }
+                }
+            }
+        }
+
+        return tweetMapper.entityToContextDto(targetTweet, beforeList, afterList);
     }
 
     public List<TweetResponseDto> getReplies(Long id) {
@@ -210,9 +244,7 @@ public class TweetServiceImpl implements TweetService {
 
     @Override
     public List<HashtagDto> getHashtagsFromTweetId(Long id) {
-
         Tweet tweet = getValidTweet(id);
-
         return hashtagMapper.entitiesToDtos(tweet.getHashtags());
     }
 }
