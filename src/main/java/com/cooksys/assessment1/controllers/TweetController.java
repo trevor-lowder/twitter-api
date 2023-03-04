@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cooksys.assessment1.dtos.CredentialsDto;
 import com.cooksys.assessment1.dtos.HashtagDto;
+import com.cooksys.assessment1.dtos.TweetContextDto;
 import com.cooksys.assessment1.dtos.TweetRequestDto;
 import com.cooksys.assessment1.dtos.TweetResponseDto;
 import com.cooksys.assessment1.dtos.UserResponseDto;
@@ -92,5 +93,10 @@ public class TweetController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public TweetResponseDto createRepost(@PathVariable Long id, @RequestBody CredentialsDto credentialsDto) {
 		return tweetService.createRepost(id, credentialsDto);
+	}
+	
+	@GetMapping("/{id}/context")
+	public TweetContextDto getContext(@PathVariable Long id){
+		return tweetService.getContext(id);
 	}
 }
