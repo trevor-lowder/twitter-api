@@ -12,7 +12,6 @@ import com.cooksys.assessment1.dtos.HashtagDto;
 import com.cooksys.assessment1.dtos.TweetContextDto;
 import com.cooksys.assessment1.dtos.TweetRequestDto;
 import com.cooksys.assessment1.dtos.TweetResponseDto;
-import com.cooksys.assessment1.dtos.UserRequestDto;
 import com.cooksys.assessment1.dtos.UserResponseDto;
 import com.cooksys.assessment1.entities.Hashtag;
 import com.cooksys.assessment1.entities.Tweet;
@@ -141,19 +140,19 @@ public class TweetServiceImpl implements TweetService {
 
 		// Finds and adds mentions
 
-        List<String> mentionStrings = parseMentions(tweet.getContent());
-        List<User> mentions = new ArrayList<>();
-        for(String s : mentionStrings) {
-        	
-        	Optional<User> searchedMention = userRepository.findByCredentialsUsernameAndDeletedFalse(s);
-        	
-        	if(!searchedMention.isEmpty()) {
-        		if(!(tweet.getMentionedBy().contains(searchedMention.get()))) {
-        			searchedMention.get().getMentionedTweets().add(tweet);
-        			mentions.add(searchedMention.get());
-        			
-        		}
-        	}
+		List<String> mentionStrings = parseMentions(tweet.getContent());
+		List<User> mentions = new ArrayList<>();
+		for (String s : mentionStrings) {
+
+			Optional<User> searchedMention = userRepository.findByCredentialsUsernameAndDeletedFalse(s);
+
+			if (!searchedMention.isEmpty()) {
+				if (!(tweet.getMentionedBy().contains(searchedMention.get()))) {
+					searchedMention.get().getMentionedTweets().add(tweet);
+					mentions.add(searchedMention.get());
+
+				}
+			}
 //        	
 //        	if(tweet.getMentionedBy().contains(searchedMention.get())) {
 //        		User tag = new Hashtag();
@@ -166,9 +165,9 @@ public class TweetServiceImpl implements TweetService {
 //        		searchedMention.get().setLastUsed(tweet.getPosted());
 //        		tags.add(searchedMention.get());
 //        	}        	
-        	
-        }
-        userRepository.saveAllAndFlush(mentions);
+
+		}
+		userRepository.saveAllAndFlush(mentions);
 
 		return tweetMapper.entityToResponseDto(tweetRepository.saveAndFlush(tweet));
 	}
@@ -225,7 +224,7 @@ public class TweetServiceImpl implements TweetService {
 		Tweet newTweet = tweetMapper.requestDtoToEntity(tweetRequestDto);
 		newTweet.setAuthor(user);
 		newTweet.setInReplyTo(tweet);
-		
+
 		newTweet = tweetRepository.saveAndFlush(newTweet);
 
 		// Finds and adds hashtags
@@ -282,15 +281,12 @@ public class TweetServiceImpl implements TweetService {
 		List<Tweet> afterList = new ArrayList<>();
 
 		// Traverse up the reply chain and add tweets to the beforeList
-		Stack<Tweet> beforeStack = new Stack<>();
-		beforeStack.push(targetTweet);
 		Tweet parentTweet = targetTweet.getInReplyTo();
-		while (parentTweet != null && !parentTweet.isDeleted()) {
-			beforeStack.push(parentTweet);
+		while (parentTweet != null) {
+			if (!parentTweet.isDeleted()) {
+				beforeList.add(parentTweet);
+			}
 			parentTweet = parentTweet.getInReplyTo();
-		}
-		while (!beforeStack.isEmpty()) {
-			beforeList.add(beforeStack.pop());
 		}
 
 		// Traverse down the reply chain and add tweets to the afterList
@@ -320,10 +316,10 @@ public class TweetServiceImpl implements TweetService {
 	}
 
 	public List<TweetResponseDto> getReposts(Long id) {
-        Tweet tweet = getValidTweet(id);
-        List<Tweet> reposts = tweetRepository.findByRepostOfAndDeletedFalseOrderByPostedDesc(tweet);
-        return tweetMapper.entitiesToResponseDtos(reposts);
- }
+		Tweet tweet = getValidTweet(id);
+		List<Tweet> reposts = tweetRepository.findByRepostOfAndDeletedFalseOrderByPostedDesc(tweet);
+		return tweetMapper.entitiesToResponseDtos(reposts);
+	}
 
 	public List<UserResponseDto> getMentions(Long id) {
 		Tweet tweet = getValidTweet(id);
